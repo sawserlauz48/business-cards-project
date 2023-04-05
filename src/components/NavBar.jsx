@@ -7,24 +7,42 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import Link from "@mui/icons-material/Link";
 import { NavLink } from "react-router-dom";
 
-// import ROUTES from "../../routes/ROUTES";
+import ROUTES from "../routes/ROUTES";
 
-// const pages = [
-//   {
-//     label: "Home",
-//     url: ROUTES.HOME,
-//   },
-//   {
-//     label: "Register",
-//     url: ROUTES.REGISTER,
-//   },
-// ];
+const pages = [
+  {
+    label: "Home",
+    url: ROUTES.HOME,
+  },
+  {
+    label: "Register",
+    url: ROUTES.REGISTER,
+  },
+  {
+    label: "Login",
+    url: ROUTES.LOGIN,
+  },
+  {
+    label: "Profile",
+    url: ROUTES.PROFILE,
+  },
+  {
+    label: "Fav cards",
+    url: ROUTES.FAVCARDS,
+  },
+  {
+    label: "My cards",
+    url: ROUTES.MYCARDS,
+  },
+  {
+    label: "Sandbox",
+    url: ROUTES.SANDBOX,
+  },
+];
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
