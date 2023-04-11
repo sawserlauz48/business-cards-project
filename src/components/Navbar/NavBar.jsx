@@ -1,17 +1,26 @@
 import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { NavLink } from "react-router-dom";
 
-import ROUTES from "../routes/ROUTES";
+import SearchPartial from "./SearchPartial";
+import ROUTES from "../../routes/ROUTES";
+import { darkThemeActions } from "../../store/darkTheme";
+import { Switch } from "@mui/material";
+// import NavLinkComponent from "./NavLinkComponent";
 
 const pages = [
   {
@@ -31,7 +40,7 @@ const pages = [
     url: ROUTES.PROFILE,
   },
   {
-    label: "Fav cards",
+    label: "Fav cardsw",
     url: ROUTES.FAVCARDS,
   },
   {
@@ -46,12 +55,20 @@ const pages = [
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const dispatch = useDispatch();
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
+  const changeTheme = () => {
+    dispatch(darkThemeActions.changeTheme());
+  };
+  const isDarkTheme = useSelector(
+    (bigPie) => bigPie.darkThemeSlice.isDarkTheme
+  );
 
   return (
     <AppBar position="static">
@@ -72,6 +89,22 @@ const Navbar = () => {
                 </Typography>
               </NavLink>
             ))}
+          </Box>
+          <SearchPartial />
+          <Box
+            sx={{
+              my: 2,
+              p: 1,
+            }}
+          >
+            <Typography sx={{ display: { xs: "inline" } }}>
+              {isDarkTheme ? (
+                <DarkModeIcon sx={{ position: "relative", top: "7px" }} />
+              ) : (
+                <LightModeIcon sx={{ position: "relative", top: "7px" }} />
+              )}
+            </Typography>
+            <Switch checked={isDarkTheme} onChange={changeTheme} />
           </Box>
           {/* hamburger with menu */}
           <Box

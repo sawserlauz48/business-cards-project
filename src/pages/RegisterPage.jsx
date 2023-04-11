@@ -10,10 +10,46 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import Link from "@mui/material/Link";
+
+import { useNavigate } from "react-router-dom";
 import ROUTES from "../routes/ROUTES";
+import { useState } from "react";
+import validateRegisterSchema from "../validations/registerValidation";
 
 const LoginPage = () => {
+  const [inputState, setInputState] = useState({
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    phone: "",
+    email: "",
+    password: "",
+    imageUrl: "",
+    imageAlt: "",
+    state: "",
+    country: "",
+    city: "",
+    street: "",
+    houseNumber: "",
+    zip: "",
+    biz: "",
+  });
+  const navigate = useNavigate();
+
+  const handleInputChange = (ev) => {
+    let newInputState = JSON.parse(JSON.stringify(inputState));
+    newInputState[ev.target.id] = ev.target.value;
+    setInputState(newInputState);
+  };
+
+  const handleSignInBtn = () => {
+    const joiResponse = validateRegisterSchema(inputState);
+    if (!joiResponse) {
+      navigate(ROUTES.LOGIN);
+    }
+  };
+
   return (
     <Container component="main" maxWidth="md">
       <Box
@@ -44,6 +80,8 @@ const LoginPage = () => {
                 label="First Name"
                 name="firstName"
                 autoComplete="firstName"
+                value={inputState.firstName}
+                onChange={handleInputChange}
               />
               <Alert severity="warning"></Alert>
             </Grid>
@@ -55,6 +93,8 @@ const LoginPage = () => {
                 type="middleName"
                 id="middleName"
                 autoComplete="middleName"
+                value={inputState.middleName}
+                onChange={handleInputChange}
               />
               <Alert severity="warning"></Alert>
             </Grid>
@@ -67,6 +107,8 @@ const LoginPage = () => {
                 type="lastName"
                 id="lastName"
                 autoComplete="lastName"
+                value={inputState.lastName}
+                onChange={handleInputChange}
               />
               <Alert severity="warning"></Alert>
             </Grid>
@@ -79,6 +121,8 @@ const LoginPage = () => {
                 type="phone"
                 id="phone"
                 autoComplete="phone"
+                value={inputState.phone}
+                onChange={handleInputChange}
               />
               <Alert severity="warning"></Alert>
             </Grid>
@@ -91,6 +135,8 @@ const LoginPage = () => {
                 type="email"
                 id="email"
                 autoComplete="email"
+                value={inputState.email}
+                onChange={handleInputChange}
               />
               <Alert severity="warning"></Alert>
             </Grid>
@@ -103,6 +149,8 @@ const LoginPage = () => {
                 type="password"
                 id="password"
                 autoComplete="password"
+                value={inputState.password}
+                onChange={handleInputChange}
               />
               <Alert severity="warning"></Alert>
             </Grid>
@@ -114,6 +162,8 @@ const LoginPage = () => {
                 type="imageUrl"
                 id="imageUrl"
                 autoComplete="imageUrl"
+                value={inputState.imageUrl}
+                onChange={handleInputChange}
               />
               <Alert severity="warning"></Alert>
             </Grid>
@@ -125,6 +175,8 @@ const LoginPage = () => {
                 type="imageAlt"
                 id="imageAlt"
                 autoComplete="imageAlt"
+                value={inputState.imageAlt}
+                onChange={handleInputChange}
               />
               <Alert severity="warning"></Alert>
             </Grid>
@@ -136,6 +188,8 @@ const LoginPage = () => {
                 type="state"
                 id="state"
                 autoComplete="state"
+                value={inputState.state}
+                onChange={handleInputChange}
               />
               <Alert severity="warning"></Alert>
             </Grid>
@@ -148,6 +202,8 @@ const LoginPage = () => {
                 type="country"
                 id="country"
                 autoComplete="country"
+                value={inputState.country}
+                onChange={handleInputChange}
               />
               <Alert severity="warning"></Alert>
             </Grid>
@@ -160,6 +216,8 @@ const LoginPage = () => {
                 type="city"
                 id="city"
                 autoComplete="city"
+                value={inputState.city}
+                onChange={handleInputChange}
               />
               <Alert severity="warning"></Alert>
             </Grid>
@@ -172,6 +230,8 @@ const LoginPage = () => {
                 type="street"
                 id="street"
                 autoComplete="street"
+                value={inputState.street}
+                onChange={handleInputChange}
               />
               <Alert severity="warning"></Alert>
             </Grid>
@@ -183,7 +243,9 @@ const LoginPage = () => {
                 label="House number"
                 type="houseNumber"
                 id="houseNumber"
-                autoComplete="password"
+                autoComplete="houseNumber"
+                value={inputState.houseNumber}
+                onChange={handleInputChange}
               />
               <Alert severity="warning"></Alert>
             </Grid>
@@ -195,6 +257,8 @@ const LoginPage = () => {
                 type="zip"
                 id="zip"
                 autoComplete="zip"
+                value={inputState.zip}
+                onChange={handleInputChange}
               />
               <Alert severity="warning"></Alert>
             </Grid>
@@ -217,7 +281,11 @@ const LoginPage = () => {
             </Grid>
             <Grid container spacing={2} sx={{ marginLeft: 0 }}>
               <Grid item xs={6}>
-                <Button fullWidth variant="contained" sx={{ mt: 2, mb: 1 }}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 2, mb: 1, p: 1 }}
+                >
                   Cancel
                 </Button>
               </Grid>
@@ -230,6 +298,7 @@ const LoginPage = () => {
             <Button
               fullWidth
               variant="contained"
+              onClick={handleSignInBtn}
               sx={{ mt: 3, mb: 2, marginLeft: 2 }}
             >
               Sign In

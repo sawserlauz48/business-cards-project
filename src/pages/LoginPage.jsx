@@ -11,8 +11,19 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import ROUTES from "../routes/ROUTES";
+import { useState } from "react";
 
 const LoginPage = () => {
+  const [inputState, setInputState] = useState({
+    email: "",
+    password: "",
+  });
+  const handleInputChange = (ev) => {
+    let newInputState = JSON.parse(JSON.stringify(inputState));
+    newInputState[ev.target.id] = ev.target.value;
+    setInputState(newInputState);
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -43,6 +54,8 @@ const LoginPage = () => {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                value={inputState.email}
+                onChange={handleInputChange}
               />
               <Alert severity="warning"></Alert>
             </Grid>
@@ -55,6 +68,8 @@ const LoginPage = () => {
                 type="password"
                 id="password"
                 autoComplete="new-password"
+                value={inputState.password}
+                onChange={handleInputChange}
               />
               <Alert severity="warning"></Alert>
             </Grid>
