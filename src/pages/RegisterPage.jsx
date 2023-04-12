@@ -10,12 +10,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Link from "@mui/material/Link";
+import { Link } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import ROUTES from "../routes/ROUTES";
 import { useState } from "react";
 import validateRegisterSchema from "../validations/registerValidation";
+// import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const [inputState, setInputState] = useState({
@@ -35,19 +37,37 @@ const LoginPage = () => {
     zip: "",
     biz: "",
   });
+  const [inputsErrorsState, setInputsErrorsState] = useState(null);
   const navigate = useNavigate();
-
+  const handleSignInBtn = async (ev) => {
+    try {
+      const joiResponse = validateRegisterSchema(inputState);
+      setInputsErrorsState(joiResponse);
+      if (joiResponse) {
+        return;
+      }
+      await axios.post("/users/register", {
+        name: inputState.firstName + " " + inputState.lastName,
+        email: inputState.email,
+        password: inputState.password,
+      });
+      navigate(ROUTES.LOGIN);
+    } catch (err) {
+      console.log("error from axios", err.response.data);
+      // toast.error("")
+    }
+  };
+  const handleCancelBtn = () => {
+    //move to homepage
+    navigate(ROUTES.HOME);
+  };
+  const handleRestBtn = () => {
+    setInputState(inputState);
+  };
   const handleInputChange = (ev) => {
     let newInputState = JSON.parse(JSON.stringify(inputState));
     newInputState[ev.target.id] = ev.target.value;
     setInputState(newInputState);
-  };
-
-  const handleSignInBtn = () => {
-    const joiResponse = validateRegisterSchema(inputState);
-    if (!joiResponse) {
-      navigate(ROUTES.LOGIN);
-    }
   };
 
   return (
@@ -83,7 +103,13 @@ const LoginPage = () => {
                 value={inputState.firstName}
                 onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.firstName && (
+                <Alert severity="warning">
+                  {inputsErrorsState.firstName.map((item) => (
+                    <div key={"firstName-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -96,7 +122,13 @@ const LoginPage = () => {
                 value={inputState.middleName}
                 onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.middleName && (
+                <Alert severity="warning">
+                  {inputsErrorsState.middleName.map((item) => (
+                    <div key={"middleName-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -110,7 +142,13 @@ const LoginPage = () => {
                 value={inputState.lastName}
                 onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.lastName && (
+                <Alert severity="warning">
+                  {inputsErrorsState.lastName.map((item) => (
+                    <div key={"lastName-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -124,7 +162,13 @@ const LoginPage = () => {
                 value={inputState.phone}
                 onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.phone && (
+                <Alert severity="warning">
+                  {inputsErrorsState.phone.map((item) => (
+                    <div key={"phone-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -138,7 +182,13 @@ const LoginPage = () => {
                 value={inputState.email}
                 onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.email && (
+                <Alert severity="warning">
+                  {inputsErrorsState.email.map((item) => (
+                    <div key={"email-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -152,7 +202,13 @@ const LoginPage = () => {
                 value={inputState.password}
                 onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.password && (
+                <Alert severity="warning">
+                  {inputsErrorsState.password.map((item) => (
+                    <div key={"password-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -165,7 +221,13 @@ const LoginPage = () => {
                 value={inputState.imageUrl}
                 onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.imageUrl && (
+                <Alert severity="warning">
+                  {inputsErrorsState.imageUrl.map((item) => (
+                    <div key={"imageUrl-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -178,7 +240,13 @@ const LoginPage = () => {
                 value={inputState.imageAlt}
                 onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.imageAlt && (
+                <Alert severity="warning">
+                  {inputsErrorsState.imageAlt.map((item) => (
+                    <div key={"imageAlt-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={4}>
               <TextField
@@ -191,7 +259,13 @@ const LoginPage = () => {
                 value={inputState.state}
                 onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.state && (
+                <Alert severity="warning">
+                  {inputsErrorsState.state.map((item) => (
+                    <div key={"state-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={4}>
               <TextField
@@ -205,7 +279,13 @@ const LoginPage = () => {
                 value={inputState.country}
                 onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.country && (
+                <Alert severity="warning">
+                  {inputsErrorsState.country.map((item) => (
+                    <div key={"country-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={4}>
               <TextField
@@ -219,7 +299,13 @@ const LoginPage = () => {
                 value={inputState.city}
                 onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.city && (
+                <Alert severity="warning">
+                  {inputsErrorsState.city.map((item) => (
+                    <div key={"city-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={4}>
               <TextField
@@ -233,7 +319,13 @@ const LoginPage = () => {
                 value={inputState.street}
                 onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.street && (
+                <Alert severity="warning">
+                  {inputsErrorsState.street.map((item) => (
+                    <div key={"street-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={4}>
               <TextField
@@ -247,7 +339,13 @@ const LoginPage = () => {
                 value={inputState.houseNumber}
                 onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.houseNumber && (
+                <Alert severity="warning">
+                  {inputsErrorsState.houseNumber.map((item) => (
+                    <div key={"houseNumber-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={4}>
               <TextField
@@ -260,7 +358,13 @@ const LoginPage = () => {
                 value={inputState.zip}
                 onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.zip && (
+                <Alert severity="warning">
+                  {inputsErrorsState.zip.map((item) => (
+                    <div key={"zip-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid container justifyContent="flex-start">
               <Grid item>
@@ -284,13 +388,19 @@ const LoginPage = () => {
                 <Button
                   fullWidth
                   variant="contained"
+                  onClick={handleCancelBtn}
                   sx={{ mt: 2, mb: 1, p: 1 }}
                 >
                   Cancel
                 </Button>
               </Grid>
               <Grid item xs={6}>
-                <Button fullWidth variant="contained" sx={{ mt: 2, mb: 1 }}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  onClick={handleRestBtn}
+                  sx={{ mt: 2, mb: 1 }}
+                >
                   Reset
                 </Button>
               </Grid>

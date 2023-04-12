@@ -1,4 +1,4 @@
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import ContactEmergencyOutlinedIcon from "@mui/icons-material/ContactEmergencyOutlined";
 import {
   Alert,
   Avatar,
@@ -10,10 +10,65 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import ROUTES from "../routes/ROUTES";
+import { useState } from "react";
+import validateRegisterSchema from "../validations/registerValidation";
+// import { toast } from "react-toastify";
 
 const LoginPage = () => {
+  const [inputState, setInputState] = useState({
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    phone: "",
+    email: "",
+    password: "",
+    imageUrl: "",
+    imageAlt: "",
+    state: "",
+    country: "",
+    city: "",
+    street: "",
+    houseNumber: "",
+    zip: "",
+    biz: "",
+  });
+  const [inputsErrorsState, setInputsErrorsState] = useState(null);
+  const navigate = useNavigate();
+  const handleSignInBtn = async (ev) => {
+    try {
+      const joiResponse = validateRegisterSchema(inputState);
+      setInputsErrorsState(joiResponse);
+      if (joiResponse) {
+        return;
+      }
+      await axios.post("/users/register", {
+        name: inputState.firstName + " " + inputState.lastName,
+        email: inputState.email,
+        password: inputState.password,
+      });
+      navigate(ROUTES.LOGIN);
+    } catch (err) {
+      console.log("error from axios", err.response.data);
+      // toast.error("")
+    }
+  };
+  const handleCancelBtn = () => {
+    //move to homepage
+    navigate(ROUTES.HOME);
+  };
+  const handleRestBtn = () => {
+    setInputState(inputState);
+  };
+  const handleInputChange = (ev) => {
+    let newInputState = JSON.parse(JSON.stringify(inputState));
+    newInputState[ev.target.id] = ev.target.value;
+    setInputState(newInputState);
+  };
+
   return (
     <Container component="main" maxWidth="md">
       <Box
@@ -29,10 +84,10 @@ const LoginPage = () => {
         }}
       >
         <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <AccountCircleOutlinedIcon />
+          <ContactEmergencyOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Profile Page
+          Register Page
         </Typography>
         <Box component="div" noValidate sx={{ mt: 3 }}>
           <Grid container spacing={2}>
@@ -44,8 +99,16 @@ const LoginPage = () => {
                 label="First Name"
                 name="firstName"
                 autoComplete="firstName"
+                value={inputState.firstName}
+                onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.firstName && (
+                <Alert severity="warning">
+                  {inputsErrorsState.firstName.map((item) => (
+                    <div key={"firstName-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -55,8 +118,16 @@ const LoginPage = () => {
                 type="middleName"
                 id="middleName"
                 autoComplete="middleName"
+                value={inputState.middleName}
+                onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.middleName && (
+                <Alert severity="warning">
+                  {inputsErrorsState.middleName.map((item) => (
+                    <div key={"middleName-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -67,8 +138,16 @@ const LoginPage = () => {
                 type="lastName"
                 id="lastName"
                 autoComplete="lastName"
+                value={inputState.lastName}
+                onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.lastName && (
+                <Alert severity="warning">
+                  {inputsErrorsState.lastName.map((item) => (
+                    <div key={"lastName-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -79,8 +158,16 @@ const LoginPage = () => {
                 type="phone"
                 id="phone"
                 autoComplete="phone"
+                value={inputState.phone}
+                onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.phone && (
+                <Alert severity="warning">
+                  {inputsErrorsState.phone.map((item) => (
+                    <div key={"phone-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -91,8 +178,16 @@ const LoginPage = () => {
                 type="email"
                 id="email"
                 autoComplete="email"
+                value={inputState.email}
+                onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.email && (
+                <Alert severity="warning">
+                  {inputsErrorsState.email.map((item) => (
+                    <div key={"email-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -103,8 +198,16 @@ const LoginPage = () => {
                 type="password"
                 id="password"
                 autoComplete="password"
+                value={inputState.password}
+                onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.password && (
+                <Alert severity="warning">
+                  {inputsErrorsState.password.map((item) => (
+                    <div key={"password-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -114,8 +217,16 @@ const LoginPage = () => {
                 type="imageUrl"
                 id="imageUrl"
                 autoComplete="imageUrl"
+                value={inputState.imageUrl}
+                onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.imageUrl && (
+                <Alert severity="warning">
+                  {inputsErrorsState.imageUrl.map((item) => (
+                    <div key={"imageUrl-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -125,8 +236,16 @@ const LoginPage = () => {
                 type="imageAlt"
                 id="imageAlt"
                 autoComplete="imageAlt"
+                value={inputState.imageAlt}
+                onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.imageAlt && (
+                <Alert severity="warning">
+                  {inputsErrorsState.imageAlt.map((item) => (
+                    <div key={"imageAlt-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={4}>
               <TextField
@@ -136,8 +255,16 @@ const LoginPage = () => {
                 type="state"
                 id="state"
                 autoComplete="state"
+                value={inputState.state}
+                onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.state && (
+                <Alert severity="warning">
+                  {inputsErrorsState.state.map((item) => (
+                    <div key={"state-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={4}>
               <TextField
@@ -148,8 +275,16 @@ const LoginPage = () => {
                 type="country"
                 id="country"
                 autoComplete="country"
+                value={inputState.country}
+                onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.country && (
+                <Alert severity="warning">
+                  {inputsErrorsState.country.map((item) => (
+                    <div key={"country-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={4}>
               <TextField
@@ -160,8 +295,16 @@ const LoginPage = () => {
                 type="city"
                 id="city"
                 autoComplete="city"
+                value={inputState.city}
+                onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.city && (
+                <Alert severity="warning">
+                  {inputsErrorsState.city.map((item) => (
+                    <div key={"city-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={4}>
               <TextField
@@ -172,8 +315,16 @@ const LoginPage = () => {
                 type="street"
                 id="street"
                 autoComplete="street"
+                value={inputState.street}
+                onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.street && (
+                <Alert severity="warning">
+                  {inputsErrorsState.street.map((item) => (
+                    <div key={"street-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={4}>
               <TextField
@@ -183,9 +334,17 @@ const LoginPage = () => {
                 label="House number"
                 type="houseNumber"
                 id="houseNumber"
-                autoComplete="password"
+                autoComplete="houseNumber"
+                value={inputState.houseNumber}
+                onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.houseNumber && (
+                <Alert severity="warning">
+                  {inputsErrorsState.houseNumber.map((item) => (
+                    <div key={"houseNumber-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={4}>
               <TextField
@@ -195,8 +354,16 @@ const LoginPage = () => {
                 type="zip"
                 id="zip"
                 autoComplete="zip"
+                value={inputState.zip}
+                onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.zip && (
+                <Alert severity="warning">
+                  {inputsErrorsState.zip.map((item) => (
+                    <div key={"zip-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid container justifyContent="flex-start">
               <Grid item>
@@ -206,14 +373,25 @@ const LoginPage = () => {
                 </Typography>
               </Grid>
             </Grid>
+
             <Grid container spacing={2} sx={{ marginLeft: 0 }}>
               <Grid item xs={6}>
-                <Button fullWidth variant="contained" sx={{ mt: 2, mb: 1 }}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  onClick={handleCancelBtn}
+                  sx={{ mt: 2, mb: 1, p: 1 }}
+                >
                   Cancel
                 </Button>
               </Grid>
               <Grid item xs={6}>
-                <Button fullWidth variant="contained" sx={{ mt: 2, mb: 1 }}>
+                <Button
+                  fullWidth
+                  variant="contained"
+                  onClick={handleRestBtn}
+                  sx={{ mt: 2, mb: 1 }}
+                >
                   Reset
                 </Button>
               </Grid>
@@ -221,9 +399,10 @@ const LoginPage = () => {
             <Button
               fullWidth
               variant="contained"
+              onClick={handleSignInBtn}
               sx={{ mt: 3, mb: 2, marginLeft: 2 }}
             >
-              Update
+              Sign In
             </Button>
           </Grid>
         </Box>

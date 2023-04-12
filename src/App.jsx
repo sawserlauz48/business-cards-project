@@ -4,10 +4,15 @@ import Navbar from "./components/Navbar/NavBar";
 /* toast */
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
-import { ThemeProvider } from "@emotion/react";
-import { CssBaseline, createTheme } from "@mui/material";
+import {
+  CircularProgress,
+  CssBaseline,
+  createTheme,
+  ThemeProvider,
+} from "@mui/material";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import useLoggedIn from "./hooks/useLoggedIn";
 
 const light = {
   palette: {
@@ -22,6 +27,15 @@ const dark = {
 };
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+  const loggedIn = useLoggedIn();
+  useEffect(() => {
+    (async () => {
+      await loggedIn();
+      setIsLoading(false);
+    })();
+  }, []);
+
   const isDarkTheme = useSelector(
     (bigPie) => bigPie.darkThemeSlice.isDarkTheme
   );
@@ -44,9 +58,7 @@ function App() {
         <header>
           <Navbar />
         </header>
-        <main>
-          <Router />
-        </main>
+        <main>{isLoading ? <CircularProgress /> : <Router />}</main>
       </div>
     </ThemeProvider>
   );

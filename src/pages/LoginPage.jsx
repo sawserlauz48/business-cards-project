@@ -9,15 +9,39 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useLoggedIn from "../hooks/useLoggedIn";
+
 import ROUTES from "../routes/ROUTES";
 import { useState } from "react";
+import axios from "axios";
+import validateLoginSchema from "../validations/loginValidation";
 
 const LoginPage = () => {
   const [inputState, setInputState] = useState({
     email: "",
     password: "",
   });
+  const [inputsErrorsState, setInputsErrorsState] = useState(null);
+  const loggedIn = useLoggedIn();
+  const navigate = useNavigate();
+
+  const handleBtnClick = async (ev) => {
+    try {
+      const joiResponse = validateLoginSchema(inputState);
+      setInputsErrorsState(joiResponse);
+      if (joiResponse) {
+        return;
+      }
+      const { data } = await axios.post("/users/login", inputState);
+      localStorage.setItem("token", data.token);
+      loggedIn();
+      //move to homepage
+      navigate(ROUTES.HOME);
+    } catch (err) {
+      console.log("login error", err);
+    }
+  };
   const handleInputChange = (ev) => {
     let newInputState = JSON.parse(JSON.stringify(inputState));
     newInputState[ev.target.id] = ev.target.value;
@@ -57,7 +81,13 @@ const LoginPage = () => {
                 value={inputState.email}
                 onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.email && (
+                <Alert severity="warning">
+                  {inputsErrorsState.email.map((item) => (
+                    <div key={"email-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -71,7 +101,13 @@ const LoginPage = () => {
                 value={inputState.password}
                 onChange={handleInputChange}
               />
-              <Alert severity="warning"></Alert>
+              {inputsErrorsState && inputsErrorsState.password && (
+                <Alert severity="warning">
+                  {inputsErrorsState.password.map((item) => (
+                    <div key={"password-errors" + item}>{item}</div>
+                  ))}
+                </Alert>
+              )}
             </Grid>
           </Grid>
           <Grid container spacing={2}>
@@ -86,7 +122,12 @@ const LoginPage = () => {
               </Button>
             </Grid>
           </Grid>
-          <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={handleBtnClick}
+            sx={{ mt: 3, mb: 2 }}
+          >
             Sign In
           </Button>
           <Grid container justifyContent="flex-end">
