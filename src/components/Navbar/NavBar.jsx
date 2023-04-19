@@ -14,19 +14,20 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { NavLink } from "react-router-dom";
-
+import { NavLink, useNavigate } from "react-router-dom";
 import SearchPartial from "./SearchPartial";
 import ROUTES from "../../routes/ROUTES";
 import { darkThemeActions } from "../../store/darkTheme";
-import { Switch } from "@mui/material";
-// import NavLinkComponent from "./NavLinkComponent";
-
+import { Button, Grid, Switch } from "@mui/material";
+import NavLinkComponent from "./NavLinkComponent";
+import { authActions } from "../../store/auth";
 const pages = [
   {
-    label: "Home",
-    url: ROUTES.HOME,
+    label: "About",
+    url: ROUTES.ABOUT,
   },
+];
+const notAuthPages = [
   {
     label: "Register",
     url: ROUTES.REGISTER,
@@ -35,28 +36,38 @@ const pages = [
     label: "Login",
     url: ROUTES.LOGIN,
   },
+];
+const authedPages = [
   {
     label: "Profile",
     url: ROUTES.PROFILE,
   },
   {
+    label: "Logout",
+    url: ROUTES.LOGOUT,
+  },
+  {
     label: "Fav cardsw",
     url: ROUTES.FAVCARDS,
   },
+];
+const BizPages = [
   {
     label: "My cards",
     url: ROUTES.MYCARDS,
   },
-  {
-    label: "Sandbox",
-    url: ROUTES.SANDBOX,
-  },
 ];
-
 const Navbar = () => {
+  const isLoggedIn = useSelector(
+    (bigPieBigState) => bigPieBigState.authSlice.isLoggedIn
+  );
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const handelLogoBtn = () => {
+    navigate(ROUTES.HOME);
+  };
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -66,29 +77,43 @@ const Navbar = () => {
   const changeTheme = () => {
     dispatch(darkThemeActions.changeTheme());
   };
+  const logoutClick = () => {
+    localStorage.clear();
+    dispatch(authActions.logout());
+  };
   const isDarkTheme = useSelector(
     (bigPie) => bigPie.darkThemeSlice.isDarkTheme
   );
-
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar>
           <AdbIcon />
           <Typography variant="h6" noWrap>
-            LOGO
+            <Button fullWidth variant="contained" onClick={handelLogoBtn}>
+              LOGO
+            </Button>
           </Typography>
           {/* main navbar */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
-              <NavLink key={page.url} to={page.url}>
-                <Typography
-                  sx={{ my: 2, color: "white", display: "block", p: 2 }}
-                >
-                  {page.label}
-                </Typography>
-              </NavLink>
+              <NavLinkComponent key={page.url} {...page} />
             ))}
+            {isLoggedIn
+              ? authedPages.map((page) =>
+                  page.url === ROUTES.LOGOUT ? (
+                    <NavLinkComponent
+                      key={page.url}
+                      {...page}
+                      onClick={logoutClick}
+                    />
+                  ) : (
+                    <NavLinkComponent key={page.url} {...page} />
+                  )
+                )
+              : notAuthPages.map((page) => (
+                  <NavLinkComponent key={page.url} {...page} />
+                ))}
           </Box>
           <SearchPartial />
           <Box

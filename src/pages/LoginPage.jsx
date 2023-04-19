@@ -48,6 +48,11 @@ const LoginPage = () => {
     setInputState(newInputState);
   };
 
+  const handleCancelBtn = () => {
+    //move to homepage
+    navigate(ROUTES.HOME);
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <Box
@@ -82,7 +87,7 @@ const LoginPage = () => {
                 onChange={handleInputChange}
               />
               {inputsErrorsState && inputsErrorsState.email && (
-                <Alert severity="warning">
+                <Alert severity="warning" sx={{ mt: 1 }}>
                   {inputsErrorsState.email.map((item) => (
                     <div key={"email-errors" + item}>{item}</div>
                   ))}
@@ -102,7 +107,7 @@ const LoginPage = () => {
                 onChange={handleInputChange}
               />
               {inputsErrorsState && inputsErrorsState.password && (
-                <Alert severity="warning">
+                <Alert severity="warning" sx={{ mt: 1 }}>
                   {inputsErrorsState.password.map((item) => (
                     <div key={"password-errors" + item}>{item}</div>
                   ))}
@@ -112,7 +117,12 @@ const LoginPage = () => {
           </Grid>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <Button fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+              <Button
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                onClick={handleCancelBtn}
+              >
                 Cancel
               </Button>
             </Grid>

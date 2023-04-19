@@ -18,7 +18,7 @@ import { useState } from "react";
 import validateRegisterSchema from "../validations/registerValidation";
 // import { toast } from "react-toastify";
 
-const LoginPage = () => {
+const ProfilePage = () => {
   const [inputState, setInputState] = useState({
     firstName: "",
     middleName: "",
@@ -87,7 +87,7 @@ const LoginPage = () => {
           <ContactEmergencyOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Register Page
+          Profile Page
         </Typography>
         <Box component="div" noValidate sx={{ mt: 3 }}>
           <Grid container spacing={2}>
@@ -411,4 +411,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default ProfilePage;

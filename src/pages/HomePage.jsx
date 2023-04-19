@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 
 const HomePage = () => {
   const [cardsArr, setCardsArr] = useState(null);
+  console.log(cardsArr);
   const [originalCardsArr, setOriginalCardsArr] = useState(null);
   let qparams = useQueryParams();
   const payload = useSelector((bigPie) => bigPie.authSlice.payload);
@@ -83,6 +84,35 @@ const HomePage = () => {
           </Grid>
         ))}
       </Grid>
+
+      {/* <Box
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          p: 0,
+          m: 0,
+          bgcolor: "background.paper",
+          borderRadius: 1,
+        }}
+      >
+        <Box>Item 1</Box>
+        <Box>Item 2</Box>
+        <Box>Item 3</Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row-reverse",
+            p: 0,
+            m: 0,
+            bgcolor: "background.paper",
+            borderRadius: 1,
+          }}
+        >
+          <Box>Item 1</Box>
+          <Box>Item 2</Box>
+          <Box>Item 3</Box>
+        </Box>
+      </Box> */}
     </Box>
   );
 };

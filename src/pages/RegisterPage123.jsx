@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -31,42 +31,8 @@ const RegisterPage = () => {
     zip: "",
     biz: "",
   });
-  const inputs = [
-    { label: "First name", name: "firstName", isRiq: true },
-    { label: "Middle name", name: "middleName", isRiq: false },
-    { label: "Last name", name: "lastName", isRiq: true },
-    { label: "Phone", name: "phone", isRiq: true, type: "number" },
-    { label: "Email", name: "email", isRiq: true },
-    { label: "Password", name: "password", isRiq: true, type: "password" },
-    { label: "Image Url", name: "imageUrl", isRiq: false },
-    { label: "Image Alt", name: "imageAlt", isRiq: false },
-    { label: "State", name: "state", isRiq: false },
-    { label: "Country", name: "country", isRiq: true },
-    { label: "City", name: "city", isRiq: true },
-    { label: "Street", name: "street", isRiq: true },
-    { label: "House number", name: "houseNumber", isRiq: true },
-    { label: "Zip", name: "zip", isRiq: false, type: "number" },
-  ];
-
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
   const navigate = useNavigate();
-
-  const handleInputChange = (ev) => {
-    let newInputState = JSON.parse(JSON.stringify(inputState));
-    newInputState[ev.target.id] = ev.target.value;
-    setInputState(newInputState);
-  };
-
-  useEffect(log, [inputState]);
-  // const handleDisBtn = (ev) => {
-  //   const joiResponse = validateRegisterSchema(inputState);
-  //   setInputsErrorsState(joiResponse);
-  //   if (!joiResponse) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // };
   const handleBtnClick = async (ev) => {
     try {
       const joiResponse = validateRegisterSchema(inputState);
@@ -84,7 +50,12 @@ const RegisterPage = () => {
       console.log("error from axios", err.response.data);
     }
   };
-
+  const handleDisBtn = () => {};
+  const handleInputChange = (ev) => {
+    let newInputState = JSON.parse(JSON.stringify(inputState));
+    newInputState[ev.target.id] = ev.target.value;
+    setInputState(newInputState);
+  };
   return (
     <Box component="main" maxWidth="sm">
       <Box
@@ -109,20 +80,19 @@ const RegisterPage = () => {
         </Typography>
         <Box component="div" noValidate sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            {inputs.map((input) => (
-              <Grid item sm={6} key={input.label}>
-                <InputComponent
-                  label={input.label}
-                  name={input.name}
-                  onChange={handleInputChange}
-                  required={input.isRiq}
-                  inputsErrorsState={inputsErrorsState}
-                  value={inputState[0]}
-                  type={input.type}
-                />
-              </Grid>
-            ))}
-
+            <InputComponent
+              label={"First name"}
+              name={"firstName"}
+              onChange={handleInputChange}
+              inputsErrorsState={inputsErrorsState}
+              value={inputState.firstName}
+            />
+            <InputComponent
+              label={"Last name"}
+              onChange={handleInputChange}
+              inputsErrorsState={inputsErrorsState}
+              value={inputState.lastName}
+            />
             <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
@@ -130,10 +100,8 @@ const RegisterPage = () => {
               />
             </Grid>
           </Grid>
-
-          {
+          {handleBtnClick ? (
             <Button
-              disabled
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
@@ -141,7 +109,16 @@ const RegisterPage = () => {
             >
               Sign Up
             </Button>
-          }
+          ) : (
+            <Button
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              onClick={handleBtnClick}
+            >
+              Sign Up
+            </Button>
+          )}
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="#" variant="body2">
