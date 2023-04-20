@@ -14,23 +14,7 @@ import validateRegisterSchema from "../validations/registerValidation";
 import ROUTES from "../routes/ROUTES";
 import InputComponent from "../components/InputComponent";
 const RegisterPage = () => {
-  const [inputState, setInputState] = useState({
-    firstName: "",
-    middleName: "",
-    lastName: "",
-    phone: "",
-    email: "",
-    password: "",
-    imageUrl: "",
-    imageAlt: "",
-    state: "",
-    country: "",
-    city: "",
-    street: "",
-    houseNumber: "",
-    zip: "",
-    biz: "",
-  });
+  const [inputState, setInputState] = useState({});
   const inputs = [
     { label: "First name", name: "firstName", isRiq: true },
     { label: "Middle name", name: "middleName", isRiq: false },
@@ -56,17 +40,6 @@ const RegisterPage = () => {
     newInputState[ev.target.id] = ev.target.value;
     setInputState(newInputState);
   };
-
-  useEffect(log, [inputState]);
-  // const handleDisBtn = (ev) => {
-  //   const joiResponse = validateRegisterSchema(inputState);
-  //   setInputsErrorsState(joiResponse);
-  //   if (!joiResponse) {
-  //     return false;
-  //   } else {
-  //     return true;
-  //   }
-  // };
   const handleBtnClick = async (ev) => {
     try {
       const joiResponse = validateRegisterSchema(inputState);
@@ -74,10 +47,21 @@ const RegisterPage = () => {
       if (joiResponse) {
         return;
       }
+
       await axios.post("/users/register", {
-        name: inputState.firstName + " " + inputState.lastName,
+        firstName: inputState.firstName,
+        middleName: inputState.middleName,
+        lastName: inputState.lastName,
+        phone: inputState.phone,
         email: inputState.email,
         password: inputState.password,
+        imageUrl: inputState.imageUrl,
+        imageAlt: inputState.imageAlt,
+        country: inputState.country,
+        city: inputState.city,
+        street: inputState.street,
+        houseNumber: inputState.houseNumber,
+        zip: inputState.zip,
       });
       navigate(ROUTES.LOGIN);
     } catch (err) {
@@ -105,7 +89,7 @@ const RegisterPage = () => {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up{inputState.firstName}
+          Sign up
         </Typography>
         <Box component="div" noValidate sx={{ mt: 3 }}>
           <Grid container spacing={2}>
@@ -117,7 +101,6 @@ const RegisterPage = () => {
                   onChange={handleInputChange}
                   required={input.isRiq}
                   inputsErrorsState={inputsErrorsState}
-                  value={inputState[0]}
                   type={input.type}
                 />
               </Grid>
@@ -130,10 +113,10 @@ const RegisterPage = () => {
               />
             </Grid>
           </Grid>
+          <Grid container spacing={2}></Grid>
 
-          {
+          <Box>
             <Button
-              disabled
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
@@ -141,7 +124,7 @@ const RegisterPage = () => {
             >
               Sign Up
             </Button>
-          }
+          </Box>
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="#" variant="body2">

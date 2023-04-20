@@ -1,6 +1,11 @@
-import { CircularProgress } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import ROUTES from "../routes/ROUTES";
 
 const LogoutPage = () => {
-  return <CircularProgress />;
+  const navigate = useNavigate;
+  return (
+    // <CircularProgress />;
+    navigate(ROUTES.HOME)
+  );
 };
 export default LogoutPage;

@@ -1,7 +1,7 @@
 import { Grid, TextField, Alert, Box } from "@mui/material";
 import AlertComponent from "./AlertComponent";
 
-const InputComponent = ({
+const InputComponentCopy = ({
   name,
   label,
   onChange,
@@ -9,18 +9,17 @@ const InputComponent = ({
   type,
   required,
   inputsErrorsState,
-  inputState,
 }) => {
   const handleInputChange = (ev) => {
     onChange(ev);
   };
 
   return (
-    <Box>
+    <Grid item sm={12}>
       <TextField
         fullWidth
         id={name}
-        label={label}
+        label={name}
         name={name}
         type={type}
         autoComplete={name}
@@ -31,7 +30,7 @@ const InputComponent = ({
       <Box>
         <AlertComponent name={name} inputsErrorsState={inputsErrorsState} />
       </Box>
-    </Box>
+    </Grid>
   );
 };
-export default InputComponent;
+export default InputComponentCopy;

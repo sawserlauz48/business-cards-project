@@ -1,6 +1,5 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -9,7 +8,6 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
-
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import MenuItem from "@mui/material/MenuItem";
@@ -51,16 +49,24 @@ const authedPages = [
     url: ROUTES.FAVCARDS,
   },
 ];
-const BizPages = [
+const bizPages = [
   {
     label: "My cards",
     url: ROUTES.MYCARDS,
   },
 ];
+const adminPages = [
+  {
+    label: "Sandbox",
+    url: ROUTES.SANDBOX,
+  },
+];
+
 const Navbar = () => {
-  const isLoggedIn = useSelector(
-    (bigPieBigState) => bigPieBigState.authSlice.isLoggedIn
-  );
+  const isLoggedIn = useSelector((bigPie) => bigPie.authSlice.isLoggedIn);
+  const isBizacc = useSelector((bigPie) => bigPie.bizAuthSlice.isBiz);
+  const isAdminacc = useSelector((bigPie) => bigPie.adminAuthSlice.isAdmin);
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -114,7 +120,18 @@ const Navbar = () => {
               : notAuthPages.map((page) => (
                   <NavLinkComponent key={page.url} {...page} />
                 ))}
+            {isBizacc
+              ? bizPages.map((page) => (
+                  <NavLinkComponent key={page.url} {...page} />
+                ))
+              : ""}
+            {isAdminacc
+              ? adminPages.map((page) => (
+                  <NavLinkComponent key={page.url} {...page} />
+                ))
+              : ""}
           </Box>
+
           <SearchPartial />
           <Box
             sx={{

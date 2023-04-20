@@ -44,6 +44,16 @@ const Router = () => {
         }
       />
       <Route
+        path={ROUTES.EDIT}
+        element={
+          <SuperProtectedRoute
+            isAdmin={false}
+            isBiz={true}
+            element={<EditCardPage />}
+          />
+        }
+      />
+      <Route
         path={ROUTES.SANDBOX}
         element={
           <SuperProtectedRoute

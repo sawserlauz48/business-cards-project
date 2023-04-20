@@ -9,6 +9,7 @@ const ROUTES = {
     PROFILE: "/profile",
     FAVCARDS: "/favoritecards",
     MYCARDS: "/mycards",
+    EDIT: "/edit",
     SANDBOX: "/sandbox",
 };
 
