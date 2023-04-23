@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
@@ -15,39 +15,40 @@ import InputComponent from "../components/InputComponent";
 import ButtonComponents from "../components/ButtonComponents";
 const initailState = {
   firstName: "",
-  middleName: "",
   lastName: "",
-  phone: "",
   email: "",
   password: "",
-  imageUrl: "",
-  imageAlt: "",
-  state: "",
+  phone: "",
   country: "",
   city: "",
   street: "",
   houseNumber: "",
-  zip: "",
+  middleName: "",
+  imageUrl: "",
+  imageAlt: "",
+  state: "",
+  zipCode: "",
   biz: "",
 };
 const inputs = [
   { label: "First name", name: "firstName", isRiq: true },
-  { label: "Middle name", name: "middleName", isRiq: false },
+  { label: "Middle Name", name: "middleName", isRiq: false },
   { label: "Last name", name: "lastName", isRiq: true },
   { label: "Phone", name: "phone", isRiq: true, type: "number" },
   { label: "Email", name: "email", isRiq: true },
   { label: "Password", name: "password", isRiq: true, type: "password" },
-  { label: "Image Url", name: "imageUrl", isRiq: false },
-  { label: "Image Alt", name: "imageAlt", isRiq: false },
-  { label: "State", name: "state", isRiq: false },
   { label: "Country", name: "country", isRiq: true },
   { label: "City", name: "city", isRiq: true },
   { label: "Street", name: "street", isRiq: true },
   { label: "House number", name: "houseNumber", isRiq: true },
-  { label: "Zip", name: "zip", isRiq: false, type: "number" },
+  { label: "Image Url", name: "imageUrl", isRiq: false },
+  { label: "Image Alt", name: "imageAlt", isRiq: false },
+  { label: "State", name: "state", isRiq: false },
+  { label: "zip Code", name: "zipCode", isRiq: false },
 ];
 const RegisterPage = () => {
   const [inputState, setInputState] = useState(initailState);
+  const [checked, setChecked] = useState(false);
 
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
   const navigate = useNavigate();
@@ -62,6 +63,9 @@ const RegisterPage = () => {
     newInputState[ev.target.id] = ev.target.value;
     setInputState(newInputState);
   };
+  const handleChange = (event) => {
+    setChecked(event.target.checked);
+  };
   const handleSignInBtn = async (ev) => {
     try {
       const joiResponse = validateRegisterSchema(inputState);
@@ -69,21 +73,22 @@ const RegisterPage = () => {
       if (joiResponse) {
         return;
       }
-
       await axios.post("/users/register", {
         firstName: inputState.firstName,
-        middleName: inputState.middleName,
         lastName: inputState.lastName,
-        phone: inputState.phone,
         email: inputState.email,
         password: inputState.password,
-        imageUrl: inputState.imageUrl,
-        imageAlt: inputState.imageAlt,
+        phone: inputState.phone,
         country: inputState.country,
         city: inputState.city,
         street: inputState.street,
         houseNumber: inputState.houseNumber,
-        zip: inputState.zip,
+        middleName: inputState.houseNumber,
+        imageUrl: inputState.imageUrl,
+        imageAlt: inputState.imageAlt,
+        state: inputState.state,
+        zipCode: inputState.zip,
+        biz: checked,
       });
       navigate(ROUTES.LOGIN);
     } catch (err) {
@@ -124,7 +129,7 @@ const RegisterPage = () => {
                   required={input.isRiq}
                   inputsErrorsState={inputsErrorsState}
                   type={input.type}
-                  value={inputState[0]}
+                  inputState={inputState}
                 />
               </Grid>
             ))}
@@ -142,6 +147,12 @@ const RegisterPage = () => {
             handleRestBtnClick={handleRestBtn}
             handleSignInBtnClick={handleSignInBtn}
           />
+          <Grid container justifyContent="flex-start">
+            <Grid item>
+              <Checkbox checked={checked} onChange={handleChange} />
+              Register as a business account
+            </Grid>
+          </Grid>
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link href="#" variant="body2">

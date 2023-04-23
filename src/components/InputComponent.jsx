@@ -5,7 +5,6 @@ const InputComponent = ({
   name,
   label,
   onChange,
-  value,
   type,
   required,
   inputsErrorsState,
@@ -26,7 +25,7 @@ const InputComponent = ({
         autoComplete={name}
         required={required}
         onChange={handleInputChange}
-        value={value}
+        value={inputState[name]}
       ></TextField>
       <Box>
         <AlertComponent name={name} inputsErrorsState={inputsErrorsState} />
