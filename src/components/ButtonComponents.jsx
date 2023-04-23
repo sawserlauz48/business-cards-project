@@ -1,15 +1,28 @@
 import { Box, Button, Grid } from "@mui/material";
 
-const ButtonComponents = (handleCancelBtn, handleRestBtn, handleSignInBtn) => {
+const ButtonComponents = ({
+  handleCancelBtnClick,
+  handleRestBtnClick,
+  handleSignInBtnClick,
+}) => {
+  const handleCancelBtn = (ev) => {
+    handleCancelBtnClick(ev);
+  };
+  const handleRestBtn = () => {
+    handleRestBtnClick();
+  };
+  const handleSignInBtn = (ev) => {
+    handleSignInBtnClick(ev);
+  };
   return (
     <Box>
-      <Grid container spacing={2} sx={{ marginLeft: 0 }}>
+      <Grid container spacing={2}>
         <Grid item xs={6}>
           <Button
             onClick={handleCancelBtn}
             fullWidth
             variant="contained"
-            sx={{ mt: 2, mb: 1, p: 1 }}
+            sx={{ mt: 2, mb: 1 }}
           >
             Cancel
           </Button>
@@ -29,7 +42,7 @@ const ButtonComponents = (handleCancelBtn, handleRestBtn, handleSignInBtn) => {
         onClick={handleSignInBtn}
         fullWidth
         variant="contained"
-        sx={{ mt: 3, mb: 2, marginLeft: 2 }}
+        sx={{ mt: 3, mb: 2 }}
       >
         Sign In
       </Button>

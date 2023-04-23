@@ -17,25 +17,25 @@ import ROUTES from "../routes/ROUTES";
 import { useState } from "react";
 import validateRegisterSchema from "../validations/registerValidation";
 // import { toast } from "react-toastify";
-
+const initailState = {
+  firstName: "",
+  middleName: "",
+  lastName: "",
+  phone: "",
+  email: "",
+  password: "",
+  imageUrl: "",
+  imageAlt: "",
+  state: "",
+  country: "",
+  city: "",
+  street: "",
+  houseNumber: "",
+  zip: "",
+  biz: "",
+};
 const ProfilePage = () => {
-  const [inputState, setInputState] = useState({
-    firstName: "",
-    middleName: "",
-    lastName: "",
-    phone: "",
-    email: "",
-    password: "",
-    imageUrl: "",
-    imageAlt: "",
-    state: "",
-    country: "",
-    city: "",
-    street: "",
-    houseNumber: "",
-    zip: "",
-    biz: "",
-  });
+  const [inputState, setInputState] = useState(initailState);
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
   const navigate = useNavigate();
   const handleSignInBtn = async (ev) => {
@@ -61,7 +61,7 @@ const ProfilePage = () => {
     navigate(ROUTES.HOME);
   };
   const handleRestBtn = () => {
-    setInputState(inputState);
+    setInputState(initailState);
   };
   const handleInputChange = (ev) => {
     let newInputState = JSON.parse(JSON.stringify(inputState));

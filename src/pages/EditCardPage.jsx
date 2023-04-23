@@ -1,28 +1,30 @@
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Button, Container, Grid } from "@mui/material";
 import InputComponent from "../components/InputComponent";
 import { useState } from "react";
 import ButtonComponents from "../components/ButtonComponents";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../routes/ROUTES";
 import validateRegisterSchema from "../validations/registerValidation";
+import axios from "axios";
+const initailState = {
+  title: "",
+  subTitle: "",
+  description: "",
+  phone: "",
+  email: "",
+  web: "",
+  imageUrl: "",
+  imageAlt: "",
+  state: "",
+  country: "",
+  city: "",
+  street: "",
+  houseNumber: "",
+  zipCode: "",
+};
 const EditCardPage = () => {
-  const initailState = {
-    title: "",
-    subTitle: "",
-    description: "",
-    phone: "",
-    email: "",
-    web: "",
-    imageUrl: "",
-    imageAlt: "",
-    state: "",
-    country: "",
-    city: "",
-    street: "",
-    houseNumber: "",
-    zipCode: "",
-  };
   const [inputState, setInputState] = useState(initailState);
+
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
   const navigate = useNavigate();
   const handleInputChange = (ev) => {
@@ -91,7 +93,7 @@ const EditCardPage = () => {
           </Grid>
           <Grid item sm={6}>
             <InputComponent
-              name={"discription"}
+              name={"description"}
               label={"Discription"}
               required={true}
               value={inputState.description}
@@ -149,6 +151,7 @@ const EditCardPage = () => {
           <Grid item sm={6}>
             <InputComponent
               name={"state"}
+              label={"State"}
               required={true}
               value={inputState.state}
               inputsErrorsState={inputsErrorsState}
@@ -206,9 +209,9 @@ const EditCardPage = () => {
           </Grid>
         </Grid>
         <ButtonComponents
-          handleCancelBtn={handleCancelBtn}
-          handleRestBtn={handleRestBtn}
-          handleSignInBtn={handleSignInBtn}
+          handleCancelBtnClick={handleCancelBtn}
+          handleRestBtnClick={handleRestBtn}
+          handleSignInBtnClick={handleSignInBtn}
         />
       </Container>
     </Box>
