@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Avatar from "@mui/material/Avatar";
-import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
@@ -28,7 +27,6 @@ const initailState = {
   imageAlt: "",
   state: "",
   zipCode: "",
-  biz: "",
 };
 const inputs = [
   { label: "First name", name: "firstName", isRiq: true },
@@ -49,11 +47,22 @@ const inputs = [
 const RegisterPage = () => {
   const [inputState, setInputState] = useState(initailState);
   const [checked, setChecked] = useState(false);
-
+  const [disabled, setDisabled] = useState(true);
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
   const navigate = useNavigate();
   const handleCancelBtn = () => {
     navigate(ROUTES.HOME);
+  };
+  useEffect(() => {
+    handleDisabledBtn();
+  }, [inputState]);
+  const handleDisabledBtn = () => {
+    const joiResponse = validateRegisterSchema(inputState);
+    if (!joiResponse) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
   };
   const handleRestBtn = () => {
     setInputState(initailState);
@@ -133,19 +142,14 @@ const RegisterPage = () => {
                 />
               </Grid>
             ))}
-
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-            </Grid>
           </Grid>
-          <Grid container spacing={2}></Grid>
+          <Grid container spacing={2} sx={{ mt: 2 }}></Grid>
           <ButtonComponents
             handleCancelBtnClick={handleCancelBtn}
             handleRestBtnClick={handleRestBtn}
             handleSignInBtnClick={handleSignInBtn}
+            disableSignInBtnClick={disabled}
+            signInBtnLabel={"SIGN UP"}
           />
           <Grid container justifyContent="flex-start">
             <Grid item>

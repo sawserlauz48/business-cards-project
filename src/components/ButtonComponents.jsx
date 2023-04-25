@@ -4,6 +4,8 @@ const ButtonComponents = ({
   handleCancelBtnClick,
   handleRestBtnClick,
   handleSignInBtnClick,
+  disableSignInBtnClick,
+  signInBtnLabel,
 }) => {
   const handleCancelBtn = (ev) => {
     handleCancelBtnClick(ev);
@@ -39,12 +41,13 @@ const ButtonComponents = ({
         </Grid>
       </Grid>
       <Button
+        disabled={disableSignInBtnClick}
         onClick={handleSignInBtn}
         fullWidth
         variant="contained"
         sx={{ mt: 3, mb: 2 }}
       >
-        Sign In
+        {signInBtnLabel}
       </Button>
     </Box>
   );

@@ -20,7 +20,6 @@ const HomePage = () => {
       .get("/cards/cards")
       .then(({ data }) => {
         filterFunc(data);
-        console.log(data, "data");
       })
       .catch((err) => {
         console.log("err from axios", err);

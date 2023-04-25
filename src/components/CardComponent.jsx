@@ -38,7 +38,7 @@ const CardComponent = ({
       </CardContent>
       <CardActions>
         <Button variant="text" color="primary">
-          Buy now
+          Call
         </Button>
         {canEdit ? (
           <Fragment>
@@ -52,6 +52,9 @@ const CardComponent = ({
         ) : (
           ""
         )}
+        <Button variant="text" color="warning" onClick={handleEditBtnClick}>
+          Like
+        </Button>
       </CardActions>
     </Card>
   );
