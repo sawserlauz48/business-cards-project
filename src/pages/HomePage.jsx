@@ -13,6 +13,7 @@ const HomePage = () => {
   const [originalCardsArr, setOriginalCardsArr] = useState(null);
   let qparams = useQueryParams();
   const payload = useSelector((bigPie) => bigPie.authSlice.payload);
+  console.log(payload);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -78,7 +79,11 @@ const HomePage = () => {
               img={item.image ? item.image.url : ""}
               onDelete={handleDeleteFromInitialCardsArr}
               onEdit={handleEditFromInitialCardsArr}
-              canEdit={payload && (payload.biz || payload.isAdmin)}
+              canEdit={payload && payload._id}
+              userId={item.user_id}
+              payload={payload}
+              isAdmin={payload && payload.isAdmin}
+              // isBiz={payload && payload.isBiz}
             />
           </Grid>
         ))}

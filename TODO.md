@@ -5,4 +5,5 @@
 5-home page error useEffect
 6-useSerchParams import at home page
 7-search problem
-8-
+8-prop type
+9-if admin can delete

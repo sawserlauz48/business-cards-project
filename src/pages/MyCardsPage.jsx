@@ -60,7 +60,10 @@ const MyCardsPage = () => {
                 img={item.image ? item.image.url : ""}
                 onDelete={handleDeleteFromInitialCardsArr}
                 onEdit={handleEditFromInitialCardsArr}
-                canEdit={payload && (payload.biz || payload.isAdmin)}
+                canEdit={payload && payload._id}
+                userId={item.user_id}
+                payload={payload}
+                isAdmin={payload && payload.isAdmin}
               />
             </Grid>
           ))}

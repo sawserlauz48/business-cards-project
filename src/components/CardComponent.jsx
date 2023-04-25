@@ -12,6 +12,7 @@ import PropTypes from "prop-types";
 import { Fragment } from "react";
 
 const CardComponent = ({
+  userId,
   img,
   title,
   subTitle,
@@ -20,6 +21,9 @@ const CardComponent = ({
   onDelete,
   onEdit,
   canEdit,
+  payload,
+  isAdmin,
+  isBiz,
 }) => {
   const handleDeleteBtnClick = () => {
     onDelete(id);
@@ -27,6 +31,7 @@ const CardComponent = ({
   const handleEditBtnClick = () => {
     onEdit(id);
   };
+
   return (
     <Card square raised>
       <CardActionArea>
@@ -40,11 +45,8 @@ const CardComponent = ({
         <Button variant="text" color="primary">
           Call
         </Button>
-        {canEdit ? (
+        {canEdit === userId ? (
           <Fragment>
-            <Button variant="text" color="error" onClick={handleDeleteBtnClick}>
-              Delete
-            </Button>
             <Button variant="text" color="warning" onClick={handleEditBtnClick}>
               Edit
             </Button>
@@ -52,9 +54,21 @@ const CardComponent = ({
         ) : (
           ""
         )}
-        <Button variant="text" color="warning" onClick={handleEditBtnClick}>
-          Like
-        </Button>
+        {canEdit === userId || isAdmin ? (
+          <Button variant="text" color="error" onClick={handleDeleteBtnClick}>
+            Delete
+          </Button>
+        ) : (
+          ""
+        )}
+
+        {payload ? (
+          <Button variant="text" color="warning" onClick={handleEditBtnClick}>
+            Like
+          </Button>
+        ) : (
+          ""
+        )}
       </CardActions>
     </Card>
   );
@@ -68,7 +82,7 @@ CardComponent.propTypes = {
   description: PropTypes.string.isRequired,
   onDelete: PropTypes.func,
   onEdit: PropTypes.func,
-  canEdit: PropTypes.bool,
+  canEdit: PropTypes.string,
 };
 
 CardComponent.defaultProps = {
