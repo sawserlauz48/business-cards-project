@@ -1,220 +1,208 @@
-import { Box, Button, Container, Grid } from "@mui/material";
-import InputComponent from "../components/InputComponent";
-import { useState } from "react";
-import ButtonComponents from "../components/ButtonComponents";
-import { useNavigate } from "react-router-dom";
-import ROUTES from "../routes/ROUTES";
-import validateRegisterSchema from "../validations/registerValidation";
+import { useEffect, useState } from "react";
+import Avatar from "@mui/material/Avatar";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import validateCreatCardSchema from "../validations/creatCardValidation";
+import ROUTES from "../routes/ROUTES";
+import InputComponent from "../components/InputComponent";
+import ButtonComponents from "../components/ButtonComponents";
+import AddCardIcon from "@mui/icons-material/AddCard";
+import { toast } from "react-toastify";
 const initailState = {
   title: "",
-  subTitle: "",
-  description: "",
-  phone: "",
+  subtitle: "",
   email: "",
   web: "",
-  imageUrl: "",
-  imageAlt: "",
-  state: "",
+  phone: "",
   country: "",
   city: "",
   street: "",
   houseNumber: "",
+  description: "",
+  imageUrl: "",
+  imageAlt: "",
+  state: "",
   zipCode: "",
 };
-const EditCardPage = () => {
+const inputs = [
+  { label: "Title", name: "title", isRiq: true },
+  { label: "Subtitle", name: "subtitle", isRiq: true },
+  { label: "Description", name: "description", isRiq: true },
+  { label: "Phone", name: "phone", isRiq: true },
+  { label: "Email", name: "email", isRiq: true },
+  { label: "Web", name: "web", isRiq: false },
+  { label: "Country", name: "country", isRiq: true },
+  { label: "City", name: "city", isRiq: true },
+  { label: "Street", name: "street", isRiq: true },
+  { label: "House number", name: "houseNumber", isRiq: true },
+  { label: "Image Url", name: "imageUrl", isRiq: false },
+  { label: "Image Alt", name: "imageAlt", isRiq: false },
+  { label: "State", name: "state", isRiq: false },
+  { label: "zip Code", name: "zipCode", isRiq: false },
+];
+const EditCard = () => {
   const [inputState, setInputState] = useState(initailState);
-
-  const [inputsErrorsState, setInputsErrorsState] = useState(null);
+  const [InputsErrorsState, setInputsErrorsState] = useState(null);
+  const [disabled, setDisabled] = useState(true);
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  const handleCancelBtn = () => {
+    navigate(ROUTES.HOME);
+  };
+  useEffect(() => {
+    (async () => {
+      try {
+        const errors = validateEditCardParamsSchema({ id });
+        if (errors) {
+          navigate("/");
+          return;
+        }
+        const { data } = await axios.get("/cards/card/" + id);
+        let newInputState = {
+          ...data,
+        };
+        if (data.image && data.image.url) {
+          newInputState.url = data.image.url;
+        } else {
+          newInputState.url = "";
+        }
+        if (data.image && data.image.alt) {
+          newInputState.alt = data.image.alt;
+        } else {
+          newInputState.alt = "";
+        }
+        delete newInputState.image;
+        delete newInputState.likes;
+        delete newInputState._id;
+        delete newInputState.user_id;
+        delete newInputState.bizNumber;
+        delete newInputState.createdAt;
+        setInputState(newInputState);
+      } catch (err) {
+        console.log("error from axios", err);
+      }
+    })();
+  }, [id]);
+  const handleUpdateBtnClick = async (ev) => {
+    try {
+      const joiResponse = validateEditSchema(inputState);
+      setInputsErrorsState(joiResponse);
+      console.log(joiResponse);
+      if (!joiResponse) {
+        //move to homepage
+        await axios.put("/cards/" + id, inputState);
+        navigate(ROUTES.HOME);
+      }
+    } catch (err) {
+      console.log("err", err);
+      toast.error("errrrrrrrrrrrrrrrror");
+    }
+  };
+
+  useEffect(() => {
+    const joiResponse = validateCreatCardSchema(inputState);
+    handleDisabledBtn();
+    setInputsErrorsState(joiResponse);
+  }, [inputState]);
+  const handleDisabledBtn = () => {
+    const joiResponse = validateCreatCardSchema(inputState);
+    if (!joiResponse) {
+      setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
+  };
+  const handleRestBtn = () => {
+    setInputState(initailState);
+  };
   const handleInputChange = (ev) => {
     let newInputState = JSON.parse(JSON.stringify(inputState));
     newInputState[ev.target.id] = ev.target.value;
     setInputState(newInputState);
   };
-  const handleCancelBtn = () => {
-    navigate(ROUTES.MYCARDS);
-  };
-  const handleRestBtn = () => {
-    setInputState(initailState);
-  };
-  const handleSignInBtn = async () => {
+
+  const handleSignInBtn = async (ev) => {
     try {
-      const joiResponse = validateRegisterSchema(inputState);
-      setInputsErrorsState(joiResponse);
+      const joiResponse = validateCreatCardSchema(inputState);
       if (joiResponse) {
         return;
       }
-      await axios.post("/cards/", {
+      await axios.post("/cards", {
         title: inputState.title,
-        subTitle: inputState.subTitle,
-        description: inputState.description,
-        state: inputState.state,
+        subTitle: inputState.subtitle,
+        email: inputState.email,
+        web: inputState.web,
+        phone: inputState.phone,
         country: inputState.country,
         city: inputState.city,
-        imageUrl: inputState.imageUrl,
-        imageAlt: inputState.imageAlt,
         street: inputState.street,
         houseNumber: inputState.houseNumber,
-        email: inputState.email,
-        phone: inputState.phone,
+        description: inputState.description,
+        url: inputState.imageUrl,
+        alt: inputState.imageAlt,
+        state: inputState.state,
         zipCode: inputState.zip,
-        web: inputState.web,
       });
-      navigate(ROUTES.LOGIN);
+      navigate(ROUTES.MYCARDS);
+      toast.success("The card has been created");
     } catch (err) {
       console.log("error from axios", err.response.data);
     }
   };
+
   return (
-    <Box component="div" noValidate sx={{ mt: 3 }}>
-      <h1>EDIT CARD</h1>
-      <Container>
-        <Grid container spacing={2}>
-          <Grid item sm={6}>
-            <InputComponent
-              name={"title"}
-              label={"Title"}
-              required={true}
-              value={inputState.title}
-              inputsErrorsState={inputsErrorsState}
-              onChange={handleInputChange}
-            />
+    <Box component="main" maxWidth="sm">
+      <Box
+        sx={{
+          marginLeft: "25vw",
+          width: "50vw",
+          borderRadius: 3,
+          border: "1px solid grey",
+          padding: 3,
+          marginTop: 7,
+          marginBottom: 7,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+          <AddCardIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          CREATE CARD
+        </Typography>
+        <Box component="div" noValidate sx={{ mt: 3 }}>
+          <Grid container spacing={2}>
+            {inputs.map((input) => (
+              <Grid item sm={6} key={input.label}>
+                <InputComponent
+                  label={input.label}
+                  name={input.name}
+                  onChange={handleInputChange}
+                  required={input.isRiq}
+                  type={input.type}
+                  inputState={inputState}
+                  inputsErrorsState={InputsErrorsState}
+                />
+              </Grid>
+            ))}
           </Grid>
-          <Grid item sm={6}>
-            <InputComponent
-              name={"subTitle"}
-              label={"Subtitle"}
-              required={true}
-              value={inputState.subTitle}
-              inputsErrorsState={inputsErrorsState}
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item sm={6}>
-            <InputComponent
-              name={"description"}
-              label={"Discription"}
-              required={true}
-              value={inputState.description}
-              inputsErrorsState={inputsErrorsState}
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item sm={6}>
-            <InputComponent
-              name={"phone"}
-              label={"Phone"}
-              required={true}
-              value={inputState.phone}
-              inputsErrorsState={inputsErrorsState}
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item sm={6}>
-            <InputComponent
-              name={"email"}
-              label={"Email"}
-              required={true}
-              value={inputState.email}
-              inputsErrorsState={inputsErrorsState}
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item sm={6}>
-            <InputComponent
-              name={"web"}
-              label={"Web"}
-              value={inputState.web}
-              inputsErrorsState={inputsErrorsState}
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item sm={6}>
-            <InputComponent
-              name={"imageUrl"}
-              label={"Image url"}
-              value={inputState.imageUrl}
-              inputsErrorsState={inputsErrorsState}
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item sm={6}>
-            <InputComponent
-              name={"imageAlt"}
-              label={"Image alt"}
-              value={inputState.imageAlt}
-              inputsErrorsState={inputsErrorsState}
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item sm={6}>
-            <InputComponent
-              name={"state"}
-              label={"State"}
-              required={true}
-              value={inputState.state}
-              inputsErrorsState={inputsErrorsState}
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item sm={6}>
-            <InputComponent
-              name={"country"}
-              label={"Country"}
-              required={true}
-              value={inputState.country}
-              inputsErrorsState={inputsErrorsState}
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item sm={6}>
-            <InputComponent
-              name={"city"}
-              label={"City"}
-              required={true}
-              value={inputState.city}
-              inputsErrorsState={inputsErrorsState}
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item sm={6}>
-            <InputComponent
-              name={"street"}
-              label={"Street"}
-              required={true}
-              value={inputState.street}
-              inputsErrorsState={inputsErrorsState}
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item sm={6}>
-            <InputComponent
-              name={"houseNumber"}
-              label={"House number"}
-              required={true}
-              value={inputState.houseNumber}
-              inputsErrorsState={inputsErrorsState}
-              onChange={handleInputChange}
-            />
-          </Grid>
-          <Grid item sm={6}>
-            <InputComponent
-              name={"zip"}
-              label={"Zip"}
-              value={inputState.zipCode}
-              inputsErrorsState={inputsErrorsState}
-              onChange={handleInputChange}
-            />
-          </Grid>
-        </Grid>
-        <ButtonComponents
-          handleCancelBtnClick={handleCancelBtn}
-          handleRestBtnClick={handleRestBtn}
-          handleSignInBtnClick={handleSignInBtn}
-        />
-      </Container>
+          <Grid container spacing={2} sx={{ mt: 2 }}></Grid>
+          <ButtonComponents
+            handleCancelBtnClick={handleCancelBtn}
+            handleRestBtnClick={handleRestBtn}
+            handleSignInBtnClick={handleUpdateBtnClick}
+            disableSignInBtnClick={disabled}
+            signInBtnLabel={"UPDATE"}
+          />
+        </Box>
+      </Box>
     </Box>
   );
 };
-export default EditCardPage;
+export default EditCard;

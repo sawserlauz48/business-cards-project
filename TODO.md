@@ -7,3 +7,7 @@
 7-search problem
 8-prop type
 9-if admin can delete
+10-AboutPage
+11-profile auto complete
+12-order of the inputs in register page profile page and edit card and new cardpage
+13-toast for every action

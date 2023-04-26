@@ -12,6 +12,9 @@ import PropTypes from "prop-types";
 import { Fragment } from "react";
 
 const CardComponent = ({
+  cardNumber,
+  phone,
+  address,
   userId,
   img,
   title,
@@ -23,7 +26,6 @@ const CardComponent = ({
   canEdit,
   payload,
   isAdmin,
-  isBiz,
 }) => {
   const handleDeleteBtnClick = () => {
     onDelete(id);
@@ -39,7 +41,9 @@ const CardComponent = ({
       </CardActionArea>
       <CardHeader title={title} subheader={subTitle}></CardHeader>
       <CardContent>
-        <Typography>{description}</Typography>
+        <Typography>Phone: {phone}</Typography>
+        <Typography>Address: {address}</Typography>
+        <Typography>Card Number: {cardNumber}</Typography>
       </CardContent>
       <CardActions>
         <Button variant="text" color="primary">

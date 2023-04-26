@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Grid } from "@mui/material";
+import { Box, CircularProgress, Grid, TextareaAutosize } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
@@ -75,7 +75,9 @@ const HomePage = () => {
               id={item._id}
               title={item.title}
               subTitle={item.subTitle}
-              description={item.description}
+              address={item.street + " " + item.houseNumber + " " + item.city}
+              cardNumber={item.bizNumber}
+              phone={item.phone}
               img={item.image ? item.image.url : ""}
               onDelete={handleDeleteFromInitialCardsArr}
               onEdit={handleEditFromInitialCardsArr}
@@ -88,35 +90,6 @@ const HomePage = () => {
           </Grid>
         ))}
       </Grid>
-
-      {/* <Box
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          p: 0,
-          m: 0,
-          bgcolor: "background.paper",
-          borderRadius: 1,
-        }}
-      >
-        <Box>Item 1</Box>
-        <Box>Item 2</Box>
-        <Box>Item 3</Box>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row-reverse",
-            p: 0,
-            m: 0,
-            bgcolor: "background.paper",
-            borderRadius: 1,
-          }}
-        >
-          <Box>Item 1</Box>
-          <Box>Item 2</Box>
-          <Box>Item 3</Box>
-        </Box>
-      </Box> */}
     </Box>
   );
 };

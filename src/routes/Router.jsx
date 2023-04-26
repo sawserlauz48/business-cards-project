@@ -16,6 +16,7 @@ import AboutPage from "../pages/AboutPage";
 import FavCardsPage from "../pages/FavCardsPage";
 import MyCardsPage from "../pages/MyCardsPage";
 import SandboxPage from "../pages/SandboxPage";
+import CreatCard from "../pages/CreatCard";
 
 const Router = () => {
   return (
@@ -25,6 +26,16 @@ const Router = () => {
       <Route path={ROUTES.ABOUT} element={<AboutPage />} />
       <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
       <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+      <Route
+        path={ROUTES.CREATCARD}
+        element={
+          <SuperProtectedRoute
+            isAdmin={false}
+            isBiz={true}
+            element={<CreatCard />}
+          />
+        }
+      />
       <Route
         path={ROUTES.LOGOUT}
         element={<ProtectedRoute element={<LogoutPage />} />}

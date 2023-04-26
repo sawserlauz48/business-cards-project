@@ -1,5 +1,7 @@
 import { Grid, TextField, Alert, Box } from "@mui/material";
 import AlertComponent from "./AlertComponent";
+import { useEffect, useState } from "react";
+import validateRegisterSchema from "../validations/registerValidation";
 
 const InputComponent = ({
   name,
@@ -7,8 +9,8 @@ const InputComponent = ({
   onChange,
   type,
   required,
-  inputsErrorsState,
   inputState,
+  inputsErrorsState,
 }) => {
   const handleInputChange = (ev) => {
     onChange(ev);

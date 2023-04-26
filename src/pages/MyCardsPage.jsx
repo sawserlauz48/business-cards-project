@@ -15,7 +15,7 @@ const MyCardsPage = () => {
 
   const navigate = useNavigate();
   const handlePlusBtn = () => {
-    navigate(ROUTES.EDIT);
+    navigate(ROUTES.CREATCARD);
   };
   console.log(myCardArr.length, "myCardArr.length");
 
@@ -75,7 +75,7 @@ const MyCardsPage = () => {
         onClick={handlePlusBtn}
         variant="contained"
         sx={{
-          position: "absolute",
+          position: "fixed",
           borderRadius: "100%",
           height: "60px",
           bottom: "30px",

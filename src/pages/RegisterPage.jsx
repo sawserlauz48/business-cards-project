@@ -54,7 +54,9 @@ const RegisterPage = () => {
     navigate(ROUTES.HOME);
   };
   useEffect(() => {
+    const joiResponse = validateRegisterSchema(inputState);
     handleDisabledBtn();
+    setInputsErrorsState(joiResponse);
   }, [inputState]);
   const handleDisabledBtn = () => {
     const joiResponse = validateRegisterSchema(inputState);
