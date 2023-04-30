@@ -47,7 +47,6 @@ const inputs = [
 ];
 const RegisterPage = () => {
   const [inputState, setInputState] = useState(initailState);
-  const [checked, setChecked] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
   const navigate = useNavigate();
@@ -76,9 +75,7 @@ const RegisterPage = () => {
     newInputState[ev.target.id] = ev.target.value;
     setInputState(newInputState);
   };
-  const handleChange = (event) => {
-    setChecked(event.target.checked);
-  };
+
   const handleSignInBtn = async (ev) => {
     try {
       const joiResponse = validateRegisterSchema(inputState);
@@ -101,7 +98,6 @@ const RegisterPage = () => {
         imageAlt: inputState.imageAlt,
         state: inputState.state,
         zipCode: inputState.zip,
-        biz: checked,
       });
       navigate(ROUTES.LOGIN);
     } catch (err) {

@@ -23,6 +23,7 @@ const CardComponent = ({
   id,
   onDelete,
   onEdit,
+  onLike,
   canEdit,
   payload,
   isAdmin,
@@ -33,11 +34,14 @@ const CardComponent = ({
   const handleEditBtnClick = () => {
     onEdit(id);
   };
+  const handleLikeBtnClick = () => {
+    onLike(id);
+  };
 
   return (
     <Card square raised>
       <CardActionArea>
-        <CardMedia component="img" image={img} />
+        <CardMedia component="img" image={img} sx={{ height: "400px" }} />
       </CardActionArea>
       <CardHeader title={title} subheader={subTitle}></CardHeader>
       <CardContent>
@@ -67,7 +71,7 @@ const CardComponent = ({
         )}
 
         {payload ? (
-          <Button variant="text" color="warning" onClick={handleEditBtnClick}>
+          <Button variant="text" color="warning" onClick={handleLikeBtnClick}>
             Like
           </Button>
         ) : (
@@ -83,7 +87,7 @@ CardComponent.propTypes = {
   img: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   subTitle: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   onDelete: PropTypes.func,
   onEdit: PropTypes.func,
   canEdit: PropTypes.string,

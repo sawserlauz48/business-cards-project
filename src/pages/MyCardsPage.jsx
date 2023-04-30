@@ -56,6 +56,9 @@ const MyCardsPage = () => {
                 id={item._id}
                 title={item.title}
                 subTitle={item.subTitle}
+                address={item.street + " " + item.houseNumber + " " + item.city}
+                cardNumber={item.bizNumber}
+                phone={item.phone}
                 description={item.description}
                 img={item.image ? item.image.url : ""}
                 onDelete={handleDeleteFromInitialCardsArr}
@@ -69,7 +72,7 @@ const MyCardsPage = () => {
           ))}
         </Grid>
       ) : (
-        <NoCardsPartial />
+        <NoCardsPartial string={"Click the plus button to create cards"} />
       )}
       <Button
         onClick={handlePlusBtn}

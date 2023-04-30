@@ -13,7 +13,7 @@ import AddCardIcon from "@mui/icons-material/AddCard";
 import { toast } from "react-toastify";
 const initailState = {
   title: "",
-  subtitle: "",
+  subTitle: "",
   email: "",
   web: "",
   phone: "",
@@ -29,7 +29,7 @@ const initailState = {
 };
 const inputs = [
   { label: "Title", name: "title", isRiq: true },
-  { label: "Subtitle", name: "subtitle", isRiq: true },
+  { label: "subTitle", name: "subTitle", isRiq: true },
   { label: "Description", name: "description", isRiq: true },
   { label: "Phone", name: "phone", isRiq: true },
   { label: "Email", name: "email", isRiq: true },
@@ -81,7 +81,7 @@ const CreatCard = () => {
       }
       await axios.post("/cards", {
         title: inputState.title,
-        subTitle: inputState.subtitle,
+        subTitle: inputState.subTitle,
         email: inputState.email,
         web: inputState.web,
         phone: inputState.phone,

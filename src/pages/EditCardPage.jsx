@@ -11,9 +11,12 @@ import InputComponent from "../components/InputComponent";
 import ButtonComponents from "../components/ButtonComponents";
 import AddCardIcon from "@mui/icons-material/AddCard";
 import { toast } from "react-toastify";
+import validateEditSchema, {
+  validateEditCardParamsSchema,
+} from "../validations/editValidation";
 const initailState = {
   title: "",
-  subtitle: "",
+  subTitle: "",
   email: "",
   web: "",
   phone: "",
@@ -29,7 +32,7 @@ const initailState = {
 };
 const inputs = [
   { label: "Title", name: "title", isRiq: true },
-  { label: "Subtitle", name: "subtitle", isRiq: true },
+  { label: "subTitle", name: "subTitle", isRiq: true },
   { label: "Description", name: "description", isRiq: true },
   { label: "Phone", name: "phone", isRiq: true },
   { label: "Email", name: "email", isRiq: true },
@@ -46,7 +49,7 @@ const inputs = [
 const EditCard = () => {
   const [inputState, setInputState] = useState(initailState);
   const [InputsErrorsState, setInputsErrorsState] = useState(null);
-  const [disabled, setDisabled] = useState(true);
+  const [disabled, setDisabled] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -65,16 +68,19 @@ const EditCard = () => {
         let newInputState = {
           ...data,
         };
+        console.log(newInputState, "newInputState");
         if (data.image && data.image.url) {
-          newInputState.url = data.image.url;
+          newInputState.imageUrl = data.image.url;
         } else {
-          newInputState.url = "";
+          newInputState.imageUrl = "";
         }
         if (data.image && data.image.alt) {
-          newInputState.alt = data.image.alt;
+          newInputState.imageAlt = data.image.alt;
         } else {
-          newInputState.alt = "";
+          newInputState.imageAlt = "";
         }
+        delete newInputState.zipeCode;
+        delete newInputState.__v;
         delete newInputState.image;
         delete newInputState.likes;
         delete newInputState._id;
@@ -87,19 +93,48 @@ const EditCard = () => {
       }
     })();
   }, [id]);
+  // const handleUpdateBtnClick = async (ev) => {
+  //   try {
+  //     const joiResponse = validateEditSchema(inputState);
+  //     setInputsErrorsState(joiResponse);
+  //     console.log(joiResponse);
+
+  //     if (!joiResponse) {
+  //       await axios.put("/cards/" + id, inputState);
+  //       navigate(ROUTES.HOME);
+  //     }
+  //   } catch (err) {
+  //     console.log("err", err);
+  //     toast.error("errrrrrrrrrrrrrrrror");
+  //   }
+  // };
+
   const handleUpdateBtnClick = async (ev) => {
     try {
-      const joiResponse = validateEditSchema(inputState);
-      setInputsErrorsState(joiResponse);
-      console.log(joiResponse);
-      if (!joiResponse) {
-        //move to homepage
-        await axios.put("/cards/" + id, inputState);
-        navigate(ROUTES.HOME);
+      const joiResponse = validateCreatCardSchema(inputState);
+      if (joiResponse) {
+        return;
       }
+      await axios.put("/cards/" + id, {
+        title: inputState.title,
+        subTitle: inputState.subTitle,
+        email: inputState.email,
+        web: inputState.web,
+        phone: inputState.phone,
+        country: inputState.country,
+        city: inputState.city,
+        street: inputState.street,
+        houseNumber: inputState.houseNumber,
+        description: inputState.description,
+        url: inputState.imageUrl,
+        alt: inputState.imageAlt,
+        state: inputState.state,
+        zipCode: inputState.zip,
+      });
+      navigate(ROUTES.MYCARDS);
+      toast.success("The card has been updated");
     } catch (err) {
-      console.log("err", err);
-      toast.error("errrrrrrrrrrrrrrrror");
+      toast.error(err.response.data);
     }
   };
 
@@ -125,35 +160,6 @@ const EditCard = () => {
     setInputState(newInputState);
   };
 
-  const handleSignInBtn = async (ev) => {
-    try {
-      const joiResponse = validateCreatCardSchema(inputState);
-      if (joiResponse) {
-        return;
-      }
-      await axios.post("/cards", {
-        title: inputState.title,
-        subTitle: inputState.subtitle,
-        email: inputState.email,
-        web: inputState.web,
-        phone: inputState.phone,
-        country: inputState.country,
-        city: inputState.city,
-        street: inputState.street,
-        houseNumber: inputState.houseNumber,
-        description: inputState.description,
-        url: inputState.imageUrl,
-        alt: inputState.imageAlt,
-        state: inputState.state,
-        zipCode: inputState.zip,
-      });
-      navigate(ROUTES.MYCARDS);
-      toast.success("The card has been created");
-    } catch (err) {
-      console.log("error from axios", err.response.data);
-    }
-  };
-
   return (
     <Box component="main" maxWidth="sm">
       <Box
@@ -174,7 +180,7 @@ const EditCard = () => {
           <AddCardIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          CREATE CARD
+          EDITT CARD
         </Typography>
         <Box component="div" noValidate sx={{ mt: 3 }}>
           <Grid container spacing={2}>
@@ -197,8 +203,8 @@ const EditCard = () => {
             handleCancelBtnClick={handleCancelBtn}
             handleRestBtnClick={handleRestBtn}
             handleSignInBtnClick={handleUpdateBtnClick}
-            disableSignInBtnClick={disabled}
-            signInBtnLabel={"UPDATE"}
+            // disableSignInBtnClick={disabled}
+            signInBtnLabel={"SAVE"}
           />
         </Box>
       </Box>

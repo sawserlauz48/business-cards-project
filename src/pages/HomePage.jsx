@@ -13,9 +13,9 @@ const HomePage = () => {
   const [originalCardsArr, setOriginalCardsArr] = useState(null);
   let qparams = useQueryParams();
   const payload = useSelector((bigPie) => bigPie.authSlice.payload);
-  console.log(payload);
   const navigate = useNavigate();
-
+  console.log(qparams, "initail qparams");
+  console.log(qparams.filter, "(qparams.filter)");
   useEffect(() => {
     axios
       .get("/cards/cards")
@@ -38,6 +38,7 @@ const HomePage = () => {
     if (!originalCardsArr && data) {
       setOriginalCardsArr(data);
       setCardsArr(data.filter((card) => card.title.startsWith(filter)));
+
       return;
     }
     if (originalCardsArr) {
@@ -63,6 +64,12 @@ const HomePage = () => {
   const handleEditFromInitialCardsArr = (id) => {
     navigate(`/edit/${id}`);
   };
+  const handleLikeBtn = (id) => {
+    if (!payload) {
+      return;
+    }
+    axios.patch(`/cards/card-like/${id}`);
+  };
   if (!cardsArr) {
     return <CircularProgress />;
   }
@@ -81,6 +88,7 @@ const HomePage = () => {
               img={item.image ? item.image.url : ""}
               onDelete={handleDeleteFromInitialCardsArr}
               onEdit={handleEditFromInitialCardsArr}
+              onLike={handleLikeBtn}
               canEdit={payload && payload._id}
               userId={item.user_id}
               payload={payload}
