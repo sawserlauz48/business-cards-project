@@ -6,10 +6,6 @@ import LoginPage from "../pages/LoginPage";
 import EditCardPage from "../pages/EditCardPage";
 import ProtectedRoute from "../components/ProtectedRoute";
 import ProfilePage from "../pages/ProfilePage";
-// import {
-//   AdminProtectedRoute,
-//   BizProtectedRoute,
-// } from "../components/SuperProtectedRoute";
 import SuperProtectedRoute from "../components/SuperProtectedRoute";
 import LogoutPage from "../pages/LogoutPage";
 import AboutPage from "../pages/AboutPage";
@@ -17,6 +13,7 @@ import FavCardsPage from "../pages/FavCardsPage";
 import MyCardsPage from "../pages/MyCardsPage";
 import SandboxPage from "../pages/SandboxPage";
 import CreatCard from "../pages/CreatCard";
+import CardInfo from "../pages/CardInfo";
 
 const Router = () => {
   return (
@@ -26,6 +23,7 @@ const Router = () => {
       <Route path={ROUTES.ABOUT} element={<AboutPage />} />
       <Route path={ROUTES.REGISTER} element={<RegisterPage />} />
       <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+      <Route path="/cardinfo/:id" element={<CardInfo />} />
       <Route
         path={ROUTES.CREATCARD}
         element={
@@ -54,7 +52,7 @@ const Router = () => {
           />
         }
       />
-      <Route
+      {/* <Route
         path={ROUTES.EDIT}
         element={
           <SuperProtectedRoute
@@ -63,7 +61,7 @@ const Router = () => {
             element={<EditCardPage />}
           />
         }
-      />
+      /> */}
       <Route
         path={ROUTES.SANDBOX}
         element={

@@ -93,21 +93,6 @@ const EditCard = () => {
       }
     })();
   }, [id]);
-  // const handleUpdateBtnClick = async (ev) => {
-  //   try {
-  //     const joiResponse = validateEditSchema(inputState);
-  //     setInputsErrorsState(joiResponse);
-  //     console.log(joiResponse);
-
-  //     if (!joiResponse) {
-  //       await axios.put("/cards/" + id, inputState);
-  //       navigate(ROUTES.HOME);
-  //     }
-  //   } catch (err) {
-  //     console.log("err", err);
-  //     toast.error("errrrrrrrrrrrrrrrror");
-  //   }
-  // };
 
   const handleUpdateBtnClick = async (ev) => {
     try {

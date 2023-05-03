@@ -9,7 +9,10 @@ import {
   CardMedia,
 } from "@mui/material";
 import PropTypes from "prop-types";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
+import Checkbox from "@mui/material/Checkbox";
+import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
+import Favorite from "@mui/icons-material/Favorite";
 
 const CardComponent = ({
   cardNumber,
@@ -27,6 +30,9 @@ const CardComponent = ({
   canEdit,
   payload,
   isAdmin,
+  checked,
+  onEV,
+  onCardClick,
 }) => {
   const handleDeleteBtnClick = () => {
     onDelete(id);
@@ -37,11 +43,22 @@ const CardComponent = ({
   const handleLikeBtnClick = () => {
     onLike(id);
   };
+  const handleChange = (ev) => {
+    onEV(ev);
+  };
+  const handleCardClick = () => {
+    onCardClick(id);
+  };
 
   return (
-    <Card square raised>
+    <Card>
       <CardActionArea>
-        <CardMedia component="img" image={img} sx={{ height: "400px" }} />
+        <CardMedia
+          onClick={handleCardClick}
+          component="img"
+          image={img}
+          sx={{ height: "400px" }}
+        />
       </CardActionArea>
       <CardHeader title={title} subheader={subTitle}></CardHeader>
       <CardContent>
@@ -71,9 +88,15 @@ const CardComponent = ({
         )}
 
         {payload ? (
-          <Button variant="text" color="warning" onClick={handleLikeBtnClick}>
-            Like
-          </Button>
+          <div>
+            <Checkbox
+              icon={<FavoriteBorder />}
+              checkedIcon={<Favorite />}
+              checked={checked}
+              onClick={handleLikeBtnClick}
+              onChange={handleChange}
+            />
+          </div>
         ) : (
           ""
         )}

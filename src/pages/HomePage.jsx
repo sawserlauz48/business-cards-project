@@ -1,6 +1,6 @@
 import { Box, CircularProgress, Grid, TextareaAutosize } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { json, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 
 import CardComponent from "../components/CardComponent";
@@ -11,11 +11,10 @@ import { useSelector } from "react-redux";
 const HomePage = () => {
   const [cardsArr, setCardsArr] = useState(null);
   const [originalCardsArr, setOriginalCardsArr] = useState(null);
+  const [checked, setChecked] = useState(false);
   let qparams = useQueryParams();
   const payload = useSelector((bigPie) => bigPie.authSlice.payload);
   const navigate = useNavigate();
-  console.log(qparams, "initail qparams");
-  console.log(qparams.filter, "(qparams.filter)");
   useEffect(() => {
     axios
       .get("/cards/cards")
@@ -27,6 +26,7 @@ const HomePage = () => {
         toast.error("Oops");
       });
   }, []);
+
   const filterFunc = (data) => {
     if (!originalCardsArr && !data) {
       return;
@@ -48,6 +48,11 @@ const HomePage = () => {
       );
     }
   };
+  const handleLikeState = (ev) => {
+    let newTarget = JSON.parse(JSON.stringify(checked));
+    console.log(newTarget, "newTarget");
+    setChecked(newTarget);
+  };
   useEffect(() => {
     filterFunc();
   }, [qparams.filter]);
@@ -64,11 +69,16 @@ const HomePage = () => {
   const handleEditFromInitialCardsArr = (id) => {
     navigate(`/edit/${id}`);
   };
-  const handleLikeBtn = (id) => {
+  const handleCardClick = (id) => {
+    navigate(`/cardinfo/${id}`);
+  };
+  const handleLikeBtn = (id, event) => {
     if (!payload) {
       return;
     }
     axios.patch(`/cards/card-like/${id}`);
+    toast.success("The card has been add to your favorite cards");
+    setChecked(event.target.checked);
   };
   if (!cardsArr) {
     return <CircularProgress />;
@@ -93,6 +103,9 @@ const HomePage = () => {
               userId={item.user_id}
               payload={payload}
               isAdmin={payload && payload.isAdmin}
+              checked={checked}
+              onEV={handleLikeState}
+              onCardClick={handleCardClick}
               // isBiz={payload && payload.isBiz}
             />
           </Grid>

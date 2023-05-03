@@ -11,6 +11,7 @@ const ROUTES = {
     MYCARDS: "/mycards",
     CREATCARD: "/creatcard",
     EDIT: "/edit",
+    CARDINFO: "/cardinfo",
     SANDBOX: "/sandbox",
 };
 
