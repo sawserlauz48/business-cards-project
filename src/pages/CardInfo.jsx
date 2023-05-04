@@ -11,92 +11,63 @@ import { toast } from "react-toastify";
 import { validateEditCardParamsSchema } from "../validations/editValidation";
 import InfoIcon from "@mui/icons-material/Info";
 import { Card, CardActionArea, CardHeader, CardMedia } from "@mui/material";
+import CardComponent from "../components/CardComponent";
+import NewCardComp from "../components/NewCardComp";
 
 const CardInfo = () => {
   const [state, setState] = useState({});
   const { id } = useParams();
+
   useEffect(() => {
     axios
       .get("/cards/card/" + id)
       .then(({ data }) => {
-        setState(data);
+        let newInputState = {
+          ...data,
+        };
+        if (data.image && data.image.url) {
+          newInputState.imageUrl = data.image.url;
+        } else {
+          newInputState.imageUrl = "";
+        }
+        if (data.image && data.image.alt) {
+          newInputState.imageAlt = data.image.alt;
+        } else {
+          newInputState.imageAlt = "";
+        }
+        delete newInputState.image;
+        delete newInputState.__v;
+        delete newInputState._id;
+        delete newInputState.user_id;
+        delete newInputState.createdAt;
+        setState(newInputState);
       })
       .catch((err) => {
         console.log("err from axios", err);
-        toast.error("Oops");
+        toast.error("Oops something went wrong");
       });
-  }, []);
-  console.log(state, "state");
+  }, [id]);
+
+  console.log(state, "state.title");
 
   return (
     <Box component="main" maxWidth="xl">
-      <Box
-        sx={{
-          //   marginLeft: "25vw",
-          //   width: "50vw",
-          borderRadius: 3,
-          border: "1px solid grey",
-          padding: 3,
-          marginTop: 7,
-          marginBottom: 7,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <InfoIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          CARD INFO
-        </Typography>
-        <Card square raised>
-          <Grid container direction="row" justifyContent="flex-start">
-            <Grid
-              item
-              sm={6}
-              sx={{ justifyContent: "left", justifyItems: "left" }}
-            >
-              <CardHeader
-                title={state.title}
-                subheader={state.subTitle}
-              ></CardHeader>
-              <Typography sx={{ pt: 1 }}>country: {state.country}</Typography>
-              <Typography sx={{ pt: 1 }}>city: {state.city}</Typography>
-              <Typography sx={{ pt: 1 }}>street: {state.street}</Typography>
-              <Typography sx={{ pt: 1 }}>
-                houseNumber: {state.houseNumber}
-              </Typography>
-              <Typography sx={{ pt: 1 }}>Phone: {state.phone}</Typography>
-              <Typography sx={{ pt: 1 }}>email: {state.email}</Typography>
-              <Typography sx={{ pt: 1 }}>
-                bizNumber: {state.bizNumber}
-              </Typography>
-            </Grid>
-            <Grid item sm={6}>
-              <CardMedia
-                component="img"
-                image={state.image.url}
-                sx={{ height: "400px" }}
-              />
-            </Grid>
-            <Grid item sm={12}></Grid>
-            <Grid item sm={12}></Grid>
-            <Grid item sm={12}></Grid>
-            <Grid item sm={12}></Grid>
-            <Grid item sm={12}></Grid>
-            <Grid item sm={12}></Grid>
-            <Grid item sm={12}></Grid>
-            <Grid item sm={12}>
-              <Typography>Description: {state.description}</Typography>
-            </Grid>
-          </Grid>
-        </Card>
-        <Box component="div" noValidate sx={{ mt: 3 }}>
-          <Grid container spacing={2}></Grid>
-          <Grid container spacing={2} sx={{ mt: 2 }}></Grid>
-        </Box>
-      </Box>
+      <NewCardComp
+        imageUrl={state.imageUrl}
+        imageAlt={state.imageAlt}
+        title={state.title}
+        subtitle={state.subTitle}
+        description={state.description}
+        email={state.email}
+        phone={state.phone}
+        bizNumber={state.bizNumber}
+        state={state.state}
+        country={state.country}
+        city={state.city}
+        street={state.street}
+        houseNumber={state.houseNumber}
+        zip={state.zip}
+      />
     </Box>
   );
 };

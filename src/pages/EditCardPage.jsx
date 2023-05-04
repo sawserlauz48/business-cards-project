@@ -188,7 +188,6 @@ const EditCard = () => {
             handleCancelBtnClick={handleCancelBtn}
             handleRestBtnClick={handleRestBtn}
             handleSignInBtnClick={handleUpdateBtnClick}
-            // disableSignInBtnClick={disabled}
             signInBtnLabel={"SAVE"}
           />
         </Box>

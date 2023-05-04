@@ -51,7 +51,7 @@ const CardComponent = ({
   };
 
   return (
-    <Card>
+    <Card container elevation={8}>
       <CardActionArea>
         <CardMedia
           onClick={handleCardClick}

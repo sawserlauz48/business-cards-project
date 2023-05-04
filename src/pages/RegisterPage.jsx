@@ -153,7 +153,7 @@ const RegisterPage = () => {
             disableSignInBtnClick={disabled}
             signInBtnLabel={"SIGN UP"}
           />
-          <Grid container justifyContent="flex-start">
+          <Grid justifyContent="flex-start">
             <Grid item>
               <Checkbox checked={checked} onChange={handleChange} />
               Register as a business account
