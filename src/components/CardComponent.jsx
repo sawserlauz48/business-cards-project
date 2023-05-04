@@ -7,8 +7,10 @@ import {
   CardActions,
   Button,
   CardMedia,
+  Badge,
 } from "@mui/material";
 import PropTypes from "prop-types";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { Fragment, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
@@ -30,9 +32,8 @@ const CardComponent = ({
   canEdit,
   payload,
   isAdmin,
-  checked,
-  onEV,
   onCardClick,
+  likes,
 }) => {
   const handleDeleteBtnClick = () => {
     onDelete(id);
@@ -43,15 +44,13 @@ const CardComponent = ({
   const handleLikeBtnClick = () => {
     onLike(id);
   };
-  const handleChange = (ev) => {
-    onEV(ev);
-  };
+
   const handleCardClick = () => {
     onCardClick(id);
   };
-
+  const isLiked = likes.includes(payload._id);
   return (
-    <Card container elevation={8}>
+    <Card container>
       <CardActionArea>
         <CardMedia
           onClick={handleCardClick}
@@ -86,20 +85,21 @@ const CardComponent = ({
         ) : (
           ""
         )}
-
         {payload ? (
-          <div>
-            <Checkbox
-              icon={<FavoriteBorder />}
-              checkedIcon={<Favorite />}
-              checked={checked}
-              onClick={handleLikeBtnClick}
-              onChange={handleChange}
-            />
-          </div>
+          <Button variant="text" color="warning" onClick={handleLikeBtnClick}>
+            {isLiked ? "unlike" : "like"}
+          </Button>
         ) : (
           ""
         )}
+        <Badge
+          badgeContent={likes.length}
+          color="primary"
+          size="md"
+          variant="solid"
+        >
+          <FavoriteBorderIcon />
+        </Badge>
       </CardActions>
     </Card>
   );

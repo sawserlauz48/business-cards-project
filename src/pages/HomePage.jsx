@@ -11,10 +11,12 @@ import { useSelector } from "react-redux";
 const HomePage = () => {
   const [cardsArr, setCardsArr] = useState(null);
   const [originalCardsArr, setOriginalCardsArr] = useState(null);
-  const [checked, setChecked] = useState(false);
   let qparams = useQueryParams();
   const payload = useSelector((bigPie) => bigPie.authSlice.payload);
   const navigate = useNavigate();
+
+  console.log(payload._id, "id");
+
   useEffect(() => {
     axios
       .get("/cards/cards")
@@ -26,7 +28,6 @@ const HomePage = () => {
         toast.error("Oops");
       });
   }, []);
-
   const filterFunc = (data) => {
     if (!originalCardsArr && !data) {
       return;
@@ -47,11 +48,6 @@ const HomePage = () => {
         newOriginalCardsArr.filter((card) => card.title.startsWith(filter))
       );
     }
-  };
-  const handleLikeState = (ev) => {
-    let newTarget = JSON.parse(JSON.stringify(checked));
-    console.log(newTarget, "newTarget");
-    setChecked(newTarget);
   };
   useEffect(() => {
     filterFunc();
@@ -78,7 +74,6 @@ const HomePage = () => {
     }
     axios.patch(`/cards/card-like/${id}`);
     toast.success("The card has been add to your favorite cards");
-    setChecked(event.target.checked);
   };
   if (!cardsArr) {
     return <CircularProgress />;
@@ -90,6 +85,7 @@ const HomePage = () => {
           <Grid item xs={4} key={item._id + Date.now()}>
             <CardComponent
               id={item._id}
+              likes={item.likes}
               title={item.title}
               subTitle={item.subTitle}
               address={item.street + " " + item.houseNumber + " " + item.city}
@@ -103,8 +99,6 @@ const HomePage = () => {
               userId={item.user_id}
               payload={payload}
               isAdmin={payload && payload.isAdmin}
-              checked={checked}
-              onEV={handleLikeState}
               onCardClick={handleCardClick}
               // isBiz={payload && payload.isBiz}
             />

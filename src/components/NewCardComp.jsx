@@ -58,19 +58,19 @@ const NewCardComp = ({
             <Typography gutterBottom variant="body1" color="text.secondary">
               {description}
             </Typography>
-            <Grid item xs={4}>
+            <Grid item md={4}>
               <Typography gutterBottom variant="body2" color="text.secondary">
                 <Typography sx={{ fontWeight: "bold" }}>E-mail:</Typography>{" "}
                 {email}
               </Typography>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item md={4}>
               <Typography gutterBottom variant="body2" color="text.secondary">
                 <Typography sx={{ fontWeight: "bold" }}>Phone:</Typography>{" "}
                 {phone}
               </Typography>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item md={4}>
               <Typography gutterBottom variant="body2" color="text.secondary">
                 <Typography sx={{ fontWeight: "bold" }}>
                   Business Number:
@@ -78,31 +78,26 @@ const NewCardComp = ({
                 {bizNumber}
               </Typography>
             </Grid>
-            <Grid item xs={4}>
-              <Typography gutterBottom variant="body2" color="text.secondary">
-                <Typography sx={{ fontWeight: "bold" }}>State:</Typography>{" "}
-                {state}
-              </Typography>
-            </Grid>
-            <Grid item xs={4}>
+
+            <Grid item md={4}>
               <Typography gutterBottom variant="body2" color="text.secondary">
                 <Typography sx={{ fontWeight: "bold" }}>Country:</Typography>{" "}
                 {country}
               </Typography>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item md={4}>
               <Typography gutterBottom variant="body2" color="text.secondary">
                 <Typography sx={{ fontWeight: "bold" }}>City:</Typography>{" "}
                 {city}
               </Typography>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item md={4}>
               <Typography gutterBottom variant="body2" color="text.secondary">
                 <Typography sx={{ fontWeight: "bold" }}>Street:</Typography>{" "}
                 {street}
               </Typography>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item md={4}>
               <Typography gutterBottom variant="body2" color="text.secondary">
                 <Typography sx={{ fontWeight: "bold" }}>
                   House Number:
@@ -110,7 +105,13 @@ const NewCardComp = ({
                 {houseNumber}
               </Typography>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item md={4}>
+              <Typography gutterBottom variant="body2" color="text.secondary">
+                <Typography sx={{ fontWeight: "bold" }}>State:</Typography>{" "}
+                {state}
+              </Typography>
+            </Grid>
+            <Grid item md={4}>
               <Typography gutterBottom variant="body2" color="text.secondary">
                 <Typography sx={{ fontWeight: "bold" }}> Zip Code:</Typography>{" "}
                 {zip}

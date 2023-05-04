@@ -60,6 +60,7 @@ const MyCardsPage = () => {
                 userId={item.user_id}
                 payload={payload}
                 isAdmin={payload && payload.isAdmin}
+                likes={item.likes}
               />
             </Grid>
           ))}
