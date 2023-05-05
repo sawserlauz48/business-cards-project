@@ -8,6 +8,7 @@ import {
   Button,
   CardMedia,
   Badge,
+  Box,
 } from "@mui/material";
 import PropTypes from "prop-types";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
@@ -48,7 +49,10 @@ const CardComponent = ({
   const handleCardClick = () => {
     onCardClick(id);
   };
-  const isLiked = likes.includes(payload._id);
+  if (payload) {
+    var isLiked = likes.includes(payload._id);
+  }
+
   return (
     <Card container>
       <CardActionArea>
@@ -92,14 +96,16 @@ const CardComponent = ({
         ) : (
           ""
         )}
-        <Badge
-          badgeContent={likes.length}
-          color="primary"
-          size="md"
-          variant="solid"
-        >
-          <FavoriteBorderIcon />
-        </Badge>
+        <Box>
+          <Badge
+            badgeContent={likes.length}
+            color="primary"
+            size="md"
+            variant="solid"
+          >
+            <FavoriteBorderIcon />
+          </Badge>
+        </Box>
       </CardActions>
     </Card>
   );

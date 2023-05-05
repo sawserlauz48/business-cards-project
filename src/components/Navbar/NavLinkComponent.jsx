@@ -1,7 +1,8 @@
 import { NavLink } from "react-router-dom";
 import Typography from "@mui/material/Typography";
+import { Image } from "@mui/icons-material";
 
-const NavLinkComponent = ({ url, label, ...rest }) => {
+const NavLinkComponent = ({ url, label, component, ...rest }) => {
   return (
     <NavLink to={url} {...rest}>
       {({ isActive }) => (
@@ -12,6 +13,7 @@ const NavLinkComponent = ({ url, label, ...rest }) => {
             p: 2,
           }}
           color={isActive ? "warning.main" : "text.primary"}
+          component={component}
         >
           {label}
         </Typography>

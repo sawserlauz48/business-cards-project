@@ -51,7 +51,15 @@ const CardInfo = () => {
   console.log(state, "state.title");
 
   return (
-    <Box component="main" maxWidth="xl">
+    <Box component="main">
+      <Typography
+        sx={{ my: 2, textAlign: "center" }}
+        component="div"
+        variant="h3"
+        maxWidth="100%"
+      >
+        CARD INFO
+      </Typography>
       <NewCardComp
         imageUrl={state.imageUrl}
         imageAlt={state.imageAlt}

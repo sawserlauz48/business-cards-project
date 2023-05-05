@@ -10,6 +10,7 @@ import ROUTES from "../routes/ROUTES";
 import InputComponent from "../components/InputComponent";
 import ButtonComponents from "../components/ButtonComponents";
 import AddCardIcon from "@mui/icons-material/AddCard";
+import EditIcon from "@mui/icons-material/Edit";
 import { toast } from "react-toastify";
 import validateEditSchema, {
   validateEditCardParamsSchema,
@@ -68,7 +69,6 @@ const EditCard = () => {
         let newInputState = {
           ...data,
         };
-        console.log(newInputState, "newInputState");
         if (data.image && data.image.url) {
           newInputState.imageUrl = data.image.url;
         } else {
@@ -146,51 +146,54 @@ const EditCard = () => {
   };
 
   return (
-    <Box component="main" maxWidth="sm">
-      <Box
-        sx={{
-          marginLeft: "25vw",
-          width: "50vw",
-          borderRadius: 3,
-          border: "1px solid grey",
-          padding: 3,
-          marginTop: 7,
-          marginBottom: 7,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
+    <Box
+      component="main"
+      sx={{
+        marginLeft: "5%",
+        width: "90%",
+        borderRadius: 3,
+        border: "1px solid grey",
+        padding: 3,
+        marginTop: 7,
+        marginBottom: 7,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+        <EditIcon />
+      </Avatar>
+      <Typography
+        sx={{ mb: 2, textAlign: "center" }}
+        component="h1"
+        variant="h5"
       >
-        <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-          <AddCardIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          EDITT CARD
-        </Typography>
-        <Box component="div" noValidate sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            {inputs.map((input) => (
-              <Grid item sm={6} key={input.label}>
-                <InputComponent
-                  label={input.label}
-                  name={input.name}
-                  onChange={handleInputChange}
-                  required={input.isRiq}
-                  type={input.type}
-                  inputState={inputState}
-                  inputsErrorsState={InputsErrorsState}
-                />
-              </Grid>
-            ))}
-          </Grid>
-          <Grid container spacing={2} sx={{ mt: 2 }}></Grid>
-          <ButtonComponents
-            handleCancelBtnClick={handleCancelBtn}
-            handleRestBtnClick={handleRestBtn}
-            handleSignInBtnClick={handleUpdateBtnClick}
-            signInBtnLabel={"SAVE"}
-          />
-        </Box>
+        Edit Card
+      </Typography>
+      <Box component="div" noValidate sx={{ mt: 3 }}>
+        <Grid container spacing={2}>
+          {inputs.map((input) => (
+            <Grid item sm={6} key={input.label}>
+              <InputComponent
+                label={input.label}
+                name={input.name}
+                onChange={handleInputChange}
+                required={input.isRiq}
+                type={input.type}
+                inputState={inputState}
+                inputsErrorsState={InputsErrorsState}
+              />
+            </Grid>
+          ))}
+        </Grid>
+        <Grid container spacing={2} sx={{ mt: 2 }}></Grid>
+        <ButtonComponents
+          handleCancelBtnClick={handleCancelBtn}
+          handleRestBtnClick={handleRestBtn}
+          handleSignInBtnClick={handleUpdateBtnClick}
+          signInBtnLabel={"SAVE"}
+        />
       </Box>
     </Box>
   );

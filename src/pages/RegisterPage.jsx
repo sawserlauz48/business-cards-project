@@ -45,7 +45,22 @@ const inputs = [
   { label: "zip Code", name: "zipCode", isRiq: false },
 ];
 const RegisterPage = () => {
-  const [inputState, setInputState] = useState(initailState);
+  const [inputState, setInputState] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    phone: "",
+    country: "",
+    city: "",
+    street: "",
+    houseNumber: "",
+    middleName: "",
+    imageUrl: "",
+    imageAlt: "",
+    state: "",
+    zipCode: "",
+  });
   const [checked, setChecked] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
@@ -53,11 +68,15 @@ const RegisterPage = () => {
   const handleCancelBtn = () => {
     navigate(ROUTES.HOME);
   };
+  // useEffect(() => {
+  //   setInputsErrorsState(null);
+  // }, []);
   useEffect(() => {
-    const joiResponse = validateRegisterSchema(inputState);
+    // const joiResponse = validateRegisterSchema(inputState);
     handleDisabledBtn();
-    setInputsErrorsState(joiResponse);
+    // setInputsErrorsState(joiResponse);
   }, [inputState]);
+
   const handleDisabledBtn = () => {
     const joiResponse = validateRegisterSchema(inputState);
     if (!joiResponse) {
@@ -153,7 +172,7 @@ const RegisterPage = () => {
             disableSignInBtnClick={disabled}
             signInBtnLabel={"SIGN UP"}
           />
-          <Grid justifyContent="flex-start">
+          <Grid container justifyContent="flex-start">
             <Grid item>
               <Checkbox checked={checked} onChange={handleChange} />
               Register as a business account

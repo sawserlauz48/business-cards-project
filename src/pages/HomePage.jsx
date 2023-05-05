@@ -1,22 +1,28 @@
-import { Box, CircularProgress, Grid, TextareaAutosize } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  CircularProgress,
+  Grid,
+  TextareaAutosize,
+  Typography,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { json, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
-
 import CardComponent from "../components/CardComponent";
 import { toast } from "react-toastify";
 import useQueryParams from "../hooks/useQueryParams";
 import { useSelector } from "react-redux";
+import HomeIcon from "@mui/icons-material/Home";
 
 const HomePage = () => {
   const [cardsArr, setCardsArr] = useState(null);
   const [originalCardsArr, setOriginalCardsArr] = useState(null);
+  const [LikeState, setLikeState] = useState(null);
   let qparams = useQueryParams();
   const payload = useSelector((bigPie) => bigPie.authSlice.payload);
   const navigate = useNavigate();
-
-  console.log(payload._id, "id");
-
   useEffect(() => {
     axios
       .get("/cards/cards")
@@ -38,20 +44,35 @@ const HomePage = () => {
     }
     if (!originalCardsArr && data) {
       setOriginalCardsArr(data);
-      setCardsArr(data.filter((card) => card.title.startsWith(filter)));
-
+      setCardsArr(
+        data.filter(
+          (card) =>
+            card.bizNumber.startsWith(filter) || card.title.startsWith(filter)
+        )
+      );
       return;
     }
     if (originalCardsArr) {
       let newOriginalCardsArr = JSON.parse(JSON.stringify(originalCardsArr));
       setCardsArr(
-        newOriginalCardsArr.filter((card) => card.title.startsWith(filter))
+        newOriginalCardsArr.filter(
+          (card) =>
+            card.title.startsWith(filter) || card.bizNumber.startsWith(filter)
+        )
       );
     }
   };
   useEffect(() => {
     filterFunc();
   }, [qparams.filter]);
+
+  useEffect(() => {}, [cardsArr]);
+  if (!cardsArr) {
+    return;
+  } else {
+    const initailLikeState = cardsArr.map((card) => card.likes);
+    console.log(initailLikeState);
+  }
   const handleDeleteFromInitialCardsArr = async (id) => {
     try {
       await axios.delete("/cards/" + id);
@@ -79,7 +100,45 @@ const HomePage = () => {
     return <CircularProgress />;
   }
   return (
-    <Box>
+    <Box
+      component="main"
+      sx={{
+        marginLeft: "5%",
+        width: "90%",
+        borderRadius: 3,
+        border: "1px solid grey",
+        padding: 3,
+        marginTop: 7,
+        marginBottom: 7,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+        <HomeIcon />
+      </Avatar>
+      <Typography
+        sx={{ mb: 2, textAlign: "center" }}
+        component="div"
+        variant="h5"
+        maxWidth="100%"
+      >
+        Home Page
+      </Typography>
+      <Typography
+        sx={{ mb: 2, textAlign: "center" }}
+        component="div"
+        variant="h6"
+        maxWidth="100%"
+      >
+        Here in this page you can browse all the bussines card and chose to your
+        liking
+      </Typography>
+      <Box
+        component="img"
+        image="https://images.freeimages.com/images/previews/ac9/railway-hdr-1361893.jpg"
+      ></Box>
       <Grid container spacing={2}>
         {cardsArr.map((item) => (
           <Grid item xs={4} key={item._id + Date.now()}>

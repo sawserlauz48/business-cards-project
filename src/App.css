@@ -2,7 +2,18 @@
   height: 40vmin;
   pointer-events: none;
 }
-
+.center {
+  text-align: center;
+}
+.logo {
+  height: 30px;
+  width: 40px;
+}
+.profilePic {
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+}
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

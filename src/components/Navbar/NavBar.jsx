@@ -16,64 +16,82 @@ import { NavLink, useNavigate } from "react-router-dom";
 import SearchPartial from "./SearchPartial";
 import ROUTES from "../../routes/ROUTES";
 import { darkThemeActions } from "../../store/darkTheme";
-import { Button, Grid, Switch } from "@mui/material";
+import { Button, Switch } from "@mui/material";
 import NavLinkComponent from "./NavLinkComponent";
 import { authActions } from "../../store/auth";
-const pages = [
-  {
-    label: "About",
-    url: ROUTES.ABOUT,
-  },
-];
-const notAuthPages = [
-  {
-    label: "Register",
-    url: ROUTES.REGISTER,
-  },
-  {
-    label: "Login",
-    url: ROUTES.LOGIN,
-  },
-];
-const authedPages = [
-  {
-    label: "Profile",
-    url: ROUTES.PROFILE,
-  },
-  {
-    label: "Logout",
-    url: ROUTES.LOGOUT,
-  },
-  {
-    label: "Fav cardsw",
-    url: ROUTES.FAVCARDS,
-  },
-];
-const bizPages = [
-  {
-    label: "My cards",
-    url: ROUTES.MYCARDS,
-  },
-];
-const adminPages = [
-  {
-    label: "Sandbox",
-    url: ROUTES.SANDBOX,
-  },
-];
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import axios from "axios";
+import { useEffect } from "react";
+import { useState } from "react";
 
 const Navbar = () => {
   const isLoggedIn = useSelector((bigPie) => bigPie.authSlice.isLoggedIn);
   const isBizacc = useSelector((bigPie) => bigPie.bizAuthSlice.isBiz);
   const isAdminacc = useSelector((bigPie) => bigPie.adminAuthSlice.isAdmin);
-
   const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [profilePicState, setProfilePicState] = useState(<AccountCircleIcon />);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  useEffect(() => {
+    axios
+      .get("/users/userInfo")
+      .then(({ data }) => {
+        console.log(data.imageUrl, "data");
+        let newProfilePic = data.imageUrl;
+        setProfilePicState(newProfilePic);
+      })
+      .catch((err) => {
+        console.log("err from axios", err);
+      });
+  }, []);
+  const pages = [
+    {
+      label: "About",
+      url: ROUTES.ABOUT,
+    },
+  ];
+  const notAuthPages = [
+    {
+      label: "Register",
+      url: ROUTES.REGISTER,
+    },
+    {
+      label: "Login",
+      url: ROUTES.LOGIN,
+    },
+  ];
+  const loginPages = [
+    {
+      label: [profilePicState],
+      url: ROUTES.PROFILE,
+    },
+    {
+      label: "Logout",
+      url: ROUTES.LOGOUT,
+    },
+  ];
+  const authedPages = [
+    {
+      label: "Favorite Cards",
+      url: ROUTES.FAVCARDS,
+    },
+  ];
+  const bizPages = [
+    {
+      label: "My Cards",
+      url: ROUTES.MYCARDS,
+    },
+  ];
+  const adminPages = [
+    {
+      label: "Sandbox",
+      url: ROUTES.SANDBOX,
+    },
+  ];
   const handelLogoBtn = () => {
     navigate(ROUTES.HOME);
   };
+
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -108,11 +126,7 @@ const Navbar = () => {
             {isLoggedIn
               ? authedPages.map((page) =>
                   page.url === ROUTES.LOGOUT ? (
-                    <NavLinkComponent
-                      key={page.url}
-                      {...page}
-                      onClick={logoutClick}
-                    />
+                    <NavLinkComponent key={page.url} {...page} />
                   ) : (
                     <NavLinkComponent key={page.url} {...page} />
                   )
@@ -131,8 +145,21 @@ const Navbar = () => {
                 ))
               : ""}
           </Box>
-
           <SearchPartial />
+          {isLoggedIn
+            ? loginPages.map((page) =>
+                page.url === ROUTES.LOGOUT ? (
+                  <NavLinkComponent
+                    key={page.url}
+                    {...page}
+                    onClick={logoutClick}
+                    component={image}
+                  />
+                ) : (
+                  <NavLinkComponent key={page.url} {...page} />
+                )
+              )
+            : ""}
           <Box
             sx={{
               my: 2,

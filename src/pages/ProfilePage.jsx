@@ -17,7 +17,6 @@ const initailState = {
   firstName: "",
   lastName: "",
   email: "",
-  password: "",
   phone: "",
   country: "",
   city: "",
@@ -35,7 +34,6 @@ const inputs = [
   { label: "Last name", name: "lastName", isRiq: true },
   { label: "Phone", name: "phone", isRiq: true, type: "number" },
   { label: "Email", name: "email", isRiq: true },
-  { label: "Password", name: "password", isRiq: true, type: "password" },
   { label: "Country", name: "country", isRiq: true },
   { label: "City", name: "city", isRiq: true },
   { label: "Street", name: "street", isRiq: true },
@@ -50,6 +48,36 @@ const RegisterPage = () => {
   const [disabled, setDisabled] = useState(true);
   const [inputsErrorsState, setInputsErrorsState] = useState(null);
   const navigate = useNavigate();
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await axios.get("/users/userInfo");
+        let newInputState = {
+          ...data,
+        };
+        if (data.image && data.image.url) {
+          newInputState.imageUrl = data.image.url;
+        } else {
+          newInputState.imageUrl = "";
+        }
+        if (data.image && data.image.alt) {
+          newInputState.imageAlt = data.image.alt;
+        } else {
+          newInputState.imageAlt = "";
+        }
+        delete newInputState.__v;
+        delete newInputState.image;
+        delete newInputState.likes;
+        delete newInputState._id;
+        delete newInputState.user_id;
+        delete newInputState.bizNumber;
+        delete newInputState.createdAt;
+        setInputState(newInputState);
+      } catch (err) {
+        console.log("error from axios", err);
+      }
+    })();
+  }, []);
   const handleCancelBtn = () => {
     navigate(ROUTES.HOME);
   };
@@ -87,7 +115,6 @@ const RegisterPage = () => {
         firstName: inputState.firstName,
         lastName: inputState.lastName,
         email: inputState.email,
-        password: inputState.password,
         phone: inputState.phone,
         country: inputState.country,
         city: inputState.city,
