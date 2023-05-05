@@ -71,7 +71,6 @@ const HomePage = () => {
     return;
   } else {
     const initailLikeState = cardsArr.map((card) => card.likes);
-    console.log(initailLikeState);
   }
   const handleDeleteFromInitialCardsArr = async (id) => {
     try {

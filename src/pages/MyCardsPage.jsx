@@ -31,7 +31,6 @@ const MyCardsPage = () => {
       .get("/cards/my-cards")
       .then(({ data }) => {
         setMyCardArr(data);
-        console.log(data, "data");
       })
       .catch((err) => {
         console.log("err from axios", err);

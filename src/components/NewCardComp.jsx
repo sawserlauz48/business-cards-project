@@ -23,7 +23,6 @@ const NewCardComp = ({
   return (
     <Box sx={{ mx: "10%" }}>
       <Card
-        raised
         sx={{
           width: "80vw",
           mt: 5,
@@ -48,74 +47,74 @@ const NewCardComp = ({
         <Box sx={{ p: 5 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Typography gutterBottom variant="h4" component="div">
+              <Typography variant="h4" component="div">
                 {title}
               </Typography>
-              <Typography gutterBottom variant="h6" color="text.secondary">
+              <Typography variant="h6" color="text.secondary">
                 {subtitle}
               </Typography>
             </Grid>
-            <Typography gutterBottom variant="body1" color="text.secondary">
+            <Typography variant="body1" color="text.secondary">
               {description}
             </Typography>
             <Grid item md={4}>
-              <Typography gutterBottom variant="body2" color="text.secondary">
+              <Box variant="body2" color="text.secondary">
                 <Typography sx={{ fontWeight: "bold" }}>E-mail:</Typography>{" "}
                 {email}
-              </Typography>
+              </Box>
             </Grid>
             <Grid item md={4}>
-              <Typography gutterBottom variant="body2" color="text.secondary">
+              <Box variant="body2" color="text.secondary">
                 <Typography sx={{ fontWeight: "bold" }}>Phone:</Typography>{" "}
                 {phone}
-              </Typography>
+              </Box>
             </Grid>
             <Grid item md={4}>
-              <Typography gutterBottom variant="body2" color="text.secondary">
+              <Box variant="body2" color="text.secondary">
                 <Typography sx={{ fontWeight: "bold" }}>
                   Business Number:
                 </Typography>{" "}
                 {bizNumber}
-              </Typography>
+              </Box>
             </Grid>
 
             <Grid item md={4}>
-              <Typography gutterBottom variant="body2" color="text.secondary">
+              <Box variant="body2" color="text.secondary">
                 <Typography sx={{ fontWeight: "bold" }}>Country:</Typography>{" "}
                 {country}
-              </Typography>
+              </Box>
             </Grid>
             <Grid item md={4}>
-              <Typography gutterBottom variant="body2" color="text.secondary">
+              <Box variant="body2" color="text.secondary">
                 <Typography sx={{ fontWeight: "bold" }}>City:</Typography>{" "}
                 {city}
-              </Typography>
+              </Box>
             </Grid>
             <Grid item md={4}>
-              <Typography gutterBottom variant="body2" color="text.secondary">
+              <Box variant="body2" color="text.secondary">
                 <Typography sx={{ fontWeight: "bold" }}>Street:</Typography>{" "}
                 {street}
-              </Typography>
+              </Box>
             </Grid>
             <Grid item md={4}>
-              <Typography gutterBottom variant="body2" color="text.secondary">
+              <Box variant="body2" color="text.secondary">
                 <Typography sx={{ fontWeight: "bold" }}>
                   House Number:
                 </Typography>{" "}
                 {houseNumber}
-              </Typography>
+              </Box>
             </Grid>
             <Grid item md={4}>
-              <Typography gutterBottom variant="body2" color="text.secondary">
+              <Box variant="body2" color="text.secondary">
                 <Typography sx={{ fontWeight: "bold" }}>State:</Typography>{" "}
                 {state}
-              </Typography>
+              </Box>
             </Grid>
             <Grid item md={4}>
-              <Typography gutterBottom variant="body2" color="text.secondary">
+              <Box variant="body2" color="text.secondary">
                 <Typography sx={{ fontWeight: "bold" }}> Zip Code:</Typography>{" "}
                 {zip}
-              </Typography>
+              </Box>
             </Grid>
           </Grid>
         </Box>

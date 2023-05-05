@@ -8,7 +8,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import validateRegisterSchema from "../validations/registerValidation";
+import validateProfileSchema from "../validations/profileValidation";
 import ROUTES from "../routes/ROUTES";
 import InputComponent from "../components/InputComponent";
 import ButtonComponents from "../components/ButtonComponents";
@@ -55,16 +55,8 @@ const RegisterPage = () => {
         let newInputState = {
           ...data,
         };
-        if (data.image && data.image.url) {
-          newInputState.imageUrl = data.image.url;
-        } else {
-          newInputState.imageUrl = "";
-        }
-        if (data.image && data.image.alt) {
-          newInputState.imageAlt = data.image.alt;
-        } else {
-          newInputState.imageAlt = "";
-        }
+        delete newInputState.isAdmin;
+        delete newInputState.biz;
         delete newInputState.__v;
         delete newInputState.image;
         delete newInputState.likes;
@@ -82,13 +74,13 @@ const RegisterPage = () => {
     navigate(ROUTES.HOME);
   };
   useEffect(() => {
-    const joiResponse = validateRegisterSchema(inputState);
+    const joiResponse = validateProfileSchema(inputState);
     handleDisabledBtn();
     setInputsErrorsState(joiResponse);
   }, [inputState]);
 
   const handleDisabledBtn = () => {
-    const joiResponse = validateRegisterSchema(inputState);
+    const joiResponse = validateProfileSchema(inputState);
     if (!joiResponse) {
       setDisabled(false);
     } else {
@@ -106,7 +98,7 @@ const RegisterPage = () => {
 
   const handleSignInBtn = async (ev) => {
     try {
-      const joiResponse = validateRegisterSchema(inputState);
+      const joiResponse = validateProfileSchema(inputState);
       setInputsErrorsState(joiResponse);
       if (joiResponse) {
         return;
@@ -120,13 +112,13 @@ const RegisterPage = () => {
         city: inputState.city,
         street: inputState.street,
         houseNumber: inputState.houseNumber,
-        middleName: inputState.houseNumber,
+        middleName: inputState.middleName,
         imageUrl: inputState.imageUrl,
         imageAlt: inputState.imageAlt,
         state: inputState.state,
-        zipCode: inputState.zip,
+        zipCode: inputState.zipCode,
       });
-      navigate(ROUTES.LOGIN);
+      navigate(ROUTES.HOME);
     } catch (err) {
       console.log("error from axios", err.response.data);
     }

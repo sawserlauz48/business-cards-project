@@ -19,16 +19,12 @@ const MyCardsPage = () => {
       .get("/cards/get-my-fav-cards")
       .then(({ data }) => {
         setFavCardArr(data);
-        console.log(data, "data");
       })
       .catch((err) => {
         console.log("err from axios", err);
       });
   }, []);
-  useEffect(() => {
-    console.log("-1 asdasdsa");
-  }, [favCardArr.length]);
-  console.log(favCardArr.length);
+  useEffect(() => {}, [favCardArr.length]);
   const handleDeleteFromInitialCardsArr = async (id) => {
     try {
       await axios.delete("/cards/" + id);

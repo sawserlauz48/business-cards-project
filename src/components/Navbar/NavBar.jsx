@@ -11,7 +11,6 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import MenuItem from "@mui/material/MenuItem";
-import AdbIcon from "@mui/icons-material/Adb";
 import { NavLink, useNavigate } from "react-router-dom";
 import SearchPartial from "./SearchPartial";
 import ROUTES from "../../routes/ROUTES";
@@ -19,79 +18,34 @@ import { darkThemeActions } from "../../store/darkTheme";
 import { Button, Switch } from "@mui/material";
 import NavLinkComponent from "./NavLinkComponent";
 import { authActions } from "../../store/auth";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import axios from "axios";
-import { useEffect } from "react";
-import { useState } from "react";
+import LOGO from "../../images/LOGO.jpg";
+import profilePic from "../../images/profilePic.jpg";
 
+const pages = [{ label: "About", url: ROUTES.ABOUT }];
+const notAuthPages = [
+  { label: "Register", url: ROUTES.REGISTER },
+  { label: "Login", url: ROUTES.LOGIN },
+];
+const authedPages = [{ label: "Favorite Cards", url: ROUTES.FAVCARDS }];
+const isLoginPages = [
+  {
+    label: <img className="profilePic" src={profilePic} alt="profilePic" />,
+    url: ROUTES.PROFILE,
+  },
+  { label: "Logout", url: ROUTES.LOGOUT },
+];
+const bizPages = [{ label: "My Cards", url: ROUTES.MYCARDS }];
+const adminPages = [{ label: "Sandbox", url: ROUTES.SANDBOX }];
 const Navbar = () => {
   const isLoggedIn = useSelector((bigPie) => bigPie.authSlice.isLoggedIn);
   const isBizacc = useSelector((bigPie) => bigPie.bizAuthSlice.isBiz);
   const isAdminacc = useSelector((bigPie) => bigPie.adminAuthSlice.isAdmin);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [profilePicState, setProfilePicState] = useState(<AccountCircleIcon />);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  useEffect(() => {
-    axios
-      .get("/users/userInfo")
-      .then(({ data }) => {
-        console.log(data.imageUrl, "data");
-        let newProfilePic = data.imageUrl;
-        setProfilePicState(newProfilePic);
-      })
-      .catch((err) => {
-        console.log("err from axios", err);
-      });
-  }, []);
-  const pages = [
-    {
-      label: "About",
-      url: ROUTES.ABOUT,
-    },
-  ];
-  const notAuthPages = [
-    {
-      label: "Register",
-      url: ROUTES.REGISTER,
-    },
-    {
-      label: "Login",
-      url: ROUTES.LOGIN,
-    },
-  ];
-  const loginPages = [
-    {
-      label: [profilePicState],
-      url: ROUTES.PROFILE,
-    },
-    {
-      label: "Logout",
-      url: ROUTES.LOGOUT,
-    },
-  ];
-  const authedPages = [
-    {
-      label: "Favorite Cards",
-      url: ROUTES.FAVCARDS,
-    },
-  ];
-  const bizPages = [
-    {
-      label: "My Cards",
-      url: ROUTES.MYCARDS,
-    },
-  ];
-  const adminPages = [
-    {
-      label: "Sandbox",
-      url: ROUTES.SANDBOX,
-    },
-  ];
   const handelLogoBtn = () => {
     navigate(ROUTES.HOME);
   };
-
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -112,25 +66,19 @@ const Navbar = () => {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar>
-          <AdbIcon />
-          <Typography variant="h6" noWrap>
-            <Button fullWidth variant="contained" onClick={handelLogoBtn}>
-              LOGO
-            </Button>
-          </Typography>
+          <NavLinkComponent
+            url={ROUTES.HOME}
+            label={<img src={LOGO} className="logo" alt="logo" />}
+          ></NavLinkComponent>
           {/* main navbar */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <NavLinkComponent key={page.url} {...page} />
             ))}
             {isLoggedIn
-              ? authedPages.map((page) =>
-                  page.url === ROUTES.LOGOUT ? (
-                    <NavLinkComponent key={page.url} {...page} />
-                  ) : (
-                    <NavLinkComponent key={page.url} {...page} />
-                  )
-                )
+              ? authedPages.map((page) => (
+                  <NavLinkComponent key={page.url} {...page} />
+                ))
               : notAuthPages.map((page) => (
                   <NavLinkComponent key={page.url} {...page} />
                 ))}
@@ -147,19 +95,21 @@ const Navbar = () => {
           </Box>
           <SearchPartial />
           {isLoggedIn
-            ? loginPages.map((page) =>
+            ? isLoginPages.map((page) =>
                 page.url === ROUTES.LOGOUT ? (
                   <NavLinkComponent
                     key={page.url}
                     {...page}
                     onClick={logoutClick}
-                    component={image}
                   />
                 ) : (
                   <NavLinkComponent key={page.url} {...page} />
                 )
               )
-            : ""}
+            : notAuthPages.map((page) => (
+                <NavLinkComponent key={page.url} {...page} />
+              ))}
+          <Box></Box>
           <Box
             sx={{
               my: 2,
@@ -210,15 +160,33 @@ const Navbar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem
-                  key={"miniLinks" + page.url}
-                  onClick={handleCloseNavMenu}
-                >
-                  <NavLink to={page.url}>
-                    <Typography textAlign="center">{page.label}</Typography>
-                  </NavLink>
-                </MenuItem>
+                <NavLinkComponent key={page.url} {...page} />
               ))}
+              {isLoggedIn
+                ? authedPages.map((page) =>
+                    page.url === ROUTES.LOGOUT ? (
+                      <NavLinkComponent
+                        key={page.url}
+                        {...page}
+                        onClick={logoutClick}
+                      />
+                    ) : (
+                      <NavLinkComponent key={page.url} {...page} />
+                    )
+                  )
+                : notAuthPages.map((page) => (
+                    <NavLinkComponent key={page.url} {...page} />
+                  ))}
+              {isBizacc
+                ? bizPages.map((page) => (
+                    <NavLinkComponent key={page.url} {...page} />
+                  ))
+                : ""}
+              {isAdminacc
+                ? adminPages.map((page) => (
+                    <NavLinkComponent key={page.url} {...page} />
+                  ))
+                : ""}
             </Menu>
           </Box>
         </Toolbar>

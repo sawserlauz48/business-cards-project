@@ -68,13 +68,8 @@ const RegisterPage = () => {
   const handleCancelBtn = () => {
     navigate(ROUTES.HOME);
   };
-  // useEffect(() => {
-  //   setInputsErrorsState(null);
-  // }, []);
   useEffect(() => {
-    // const joiResponse = validateRegisterSchema(inputState);
     handleDisabledBtn();
-    // setInputsErrorsState(joiResponse);
   }, [inputState]);
 
   const handleDisabledBtn = () => {
