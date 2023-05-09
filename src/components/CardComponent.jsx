@@ -54,14 +54,14 @@ const CardComponent = ({
   }
 
   return (
-    <Card container>
+    <Card>
       <CardActionArea>
         <CardMedia
           onClick={handleCardClick}
           component="img"
           image={img}
           sx={{ height: "400px" }}
-        />
+        ></CardMedia>
       </CardActionArea>
       <CardHeader title={title} subheader={subTitle}></CardHeader>
       <CardContent>
@@ -103,7 +103,7 @@ const CardComponent = ({
             size="md"
             variant="solid"
           >
-            <FavoriteBorderIcon />
+            <FavoriteBorderIcon color="primary" />
           </Badge>
         </Box>
       </CardActions>

@@ -156,7 +156,10 @@ const Navbar = () => {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: "block", md: "none" },
+                display: { xs: "block", sm: "block", md: "none" },
+                flexGrow: 1,
+                flex: 1,
+                flexDirection: "column",
               }}
             >
               {pages.map((page) => (

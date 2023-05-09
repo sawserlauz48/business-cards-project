@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Grid, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import CardComponent from "../components/CardComponent";
@@ -10,6 +10,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const MyCardsPage = () => {
   const [favCardArr, setFavCardArr] = useState([]);
+  const [originalfavCardArr, setOriginalFavCardArr] = useState([]);
   const payload = useSelector((bigPie) => bigPie.authSlice.payload);
 
   const navigate = useNavigate();
@@ -19,12 +20,38 @@ const MyCardsPage = () => {
       .get("/cards/get-my-fav-cards")
       .then(({ data }) => {
         setFavCardArr(data);
+        filterLikes(data);
       })
       .catch((err) => {
         console.log("err from axios", err);
       });
   }, []);
-  useEffect(() => {}, [favCardArr.length]);
+
+  const filterLikes = (data) => {
+    if (!originalfavCardArr && !data) {
+      return;
+    }
+    if (!originalfavCardArr && data) {
+      setOriginalFavCardArr(data);
+      if (originalfavCardArr) {
+        let neworiginalfavCardArr = JSON.parse(
+          JSON.stringify(originalfavCardArr)
+        );
+        setFavCardArr(neworiginalfavCardArr);
+      }
+    }
+  };
+
+  // const dataLikes = async (datalikes) => {
+  //   try {
+  //     const { ...datafromaxios } = await axios.get("/cards/get-my-fav-cards");
+  //     datafromaxios.data = datalikes;
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+  // console.log(dataLikes(data), "dataLikes");
+
   const handleDeleteFromInitialCardsArr = async (id) => {
     try {
       await axios.delete("/cards/" + id);

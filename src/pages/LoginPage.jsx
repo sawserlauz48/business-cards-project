@@ -22,17 +22,11 @@ const LoginPage = () => {
     email: "",
     password: "",
   });
-  const [inputsErrorsState, setInputsErrorsState] = useState(null);
   const loggedIn = useLoggedIn();
   const navigate = useNavigate();
 
   const handleBtnClick = async (ev) => {
     try {
-      const joiResponse = validateLoginSchema(inputState);
-      setInputsErrorsState(joiResponse);
-      if (joiResponse) {
-        return;
-      }
       const { data } = await axios.post("/users/login", inputState);
       localStorage.setItem("token", data.token);
       loggedIn();
@@ -86,13 +80,6 @@ const LoginPage = () => {
                 value={inputState.email}
                 onChange={handleInputChange}
               />
-              {inputsErrorsState && inputsErrorsState.email && (
-                <Alert severity="warning" sx={{ mt: 1 }}>
-                  {inputsErrorsState.email.map((item) => (
-                    <div key={"email-errors" + item}>{item}</div>
-                  ))}
-                </Alert>
-              )}
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -106,13 +93,6 @@ const LoginPage = () => {
                 value={inputState.password}
                 onChange={handleInputChange}
               />
-              {inputsErrorsState && inputsErrorsState.password && (
-                <Alert severity="warning" sx={{ mt: 1 }}>
-                  {inputsErrorsState.password.map((item) => (
-                    <div key={"password-errors" + item}>{item}</div>
-                  ))}
-                </Alert>
-              )}
             </Grid>
           </Grid>
           <Grid container spacing={2}>

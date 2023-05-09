@@ -13,6 +13,7 @@ const ROUTES = {
     EDIT: "/edit",
     CARDINFO: "/cardinfo",
     SANDBOX: "/sandbox",
+    CRM: "/crm",
 };
 
 export default ROUTES;

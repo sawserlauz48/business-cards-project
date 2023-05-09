@@ -39,7 +39,6 @@ const CardInfo = () => {
         delete newInputState.__v;
         delete newInputState._id;
         delete newInputState.user_id;
-        delete newInputState.createdAt;
         setState(newInputState);
       })
       .catch((err) => {
@@ -90,6 +89,7 @@ const CardInfo = () => {
         street={state.street}
         houseNumber={state.houseNumber}
         zip={state.zip}
+        created={state.createdAt}
       />
     </Box>
   );

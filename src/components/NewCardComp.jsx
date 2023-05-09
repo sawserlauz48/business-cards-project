@@ -19,6 +19,7 @@ const NewCardComp = ({
   street,
   houseNumber,
   zip,
+  created,
 }) => {
   return (
     <Box sx={{ mx: "10%" }}>
@@ -59,13 +60,13 @@ const NewCardComp = ({
             </Typography>
             <Grid item md={4}>
               <Box variant="body2" color="text.secondary">
-                <Typography sx={{ fontWeight: "bold" }}>E-mail:</Typography>{" "}
+                <Typography sx={{ fontWeight: "bold" }}>E-mail:</Typography>
                 {email}
               </Box>
             </Grid>
             <Grid item md={4}>
               <Box variant="body2" color="text.secondary">
-                <Typography sx={{ fontWeight: "bold" }}>Phone:</Typography>{" "}
+                <Typography sx={{ fontWeight: "bold" }}>Phone:</Typography>
                 {phone}
               </Box>
             </Grid>
@@ -73,26 +74,25 @@ const NewCardComp = ({
               <Box variant="body2" color="text.secondary">
                 <Typography sx={{ fontWeight: "bold" }}>
                   Business Number:
-                </Typography>{" "}
+                </Typography>
                 {bizNumber}
               </Box>
             </Grid>
-
             <Grid item md={4}>
               <Box variant="body2" color="text.secondary">
-                <Typography sx={{ fontWeight: "bold" }}>Country:</Typography>{" "}
+                <Typography sx={{ fontWeight: "bold" }}>Country:</Typography>
                 {country}
               </Box>
             </Grid>
             <Grid item md={4}>
               <Box variant="body2" color="text.secondary">
-                <Typography sx={{ fontWeight: "bold" }}>City:</Typography>{" "}
+                <Typography sx={{ fontWeight: "bold" }}>City:</Typography>
                 {city}
               </Box>
             </Grid>
             <Grid item md={4}>
               <Box variant="body2" color="text.secondary">
-                <Typography sx={{ fontWeight: "bold" }}>Street:</Typography>{" "}
+                <Typography sx={{ fontWeight: "bold" }}>Street:</Typography>
                 {street}
               </Box>
             </Grid>
@@ -100,20 +100,29 @@ const NewCardComp = ({
               <Box variant="body2" color="text.secondary">
                 <Typography sx={{ fontWeight: "bold" }}>
                   House Number:
-                </Typography>{" "}
+                </Typography>
                 {houseNumber}
               </Box>
             </Grid>
             <Grid item md={4}>
               <Box variant="body2" color="text.secondary">
-                <Typography sx={{ fontWeight: "bold" }}>State:</Typography>{" "}
+                <Typography sx={{ fontWeight: "bold" }}>State:</Typography>
                 {state}
               </Box>
             </Grid>
             <Grid item md={4}>
               <Box variant="body2" color="text.secondary">
-                <Typography sx={{ fontWeight: "bold" }}> Zip Code:</Typography>{" "}
+                <Typography sx={{ fontWeight: "bold" }}> Zip Code:</Typography>
                 {zip}
+              </Box>
+            </Grid>
+            <Grid item md={4}>
+              <Box variant="body2" color="text.secondary">
+                <Typography sx={{ fontWeight: "bold" }}>
+                  {" "}
+                  Created At:
+                </Typography>
+                {created}
               </Box>
             </Grid>
           </Grid>

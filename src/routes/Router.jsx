@@ -15,6 +15,14 @@ import SandboxPage from "../pages/SandboxPage";
 import CreatCard from "../pages/CreatCard";
 import CardInfo from "../pages/CardInfo";
 
+import NestedPage1 from "../pages/NestedRoutePage/NestedPage1";
+import NestedPage2 from "../pages/NestedRoutePage/NestedPage2";
+import UseMemoPage from "../pages/ReRenderPage/UseMemoPage";
+import CRM from "../pages/CRMPage";
+// import ReRenderPage from "../pages/ReRenderPage/ReRenderPage";
+// import RP1 from "../pages/RP1";
+// import RP2 from "../pages/RP2";
+
 const Router = () => {
   return (
     <Routes>
@@ -52,16 +60,6 @@ const Router = () => {
           />
         }
       />
-      {/* <Route
-        path={ROUTES.EDIT}
-        element={
-          <SuperProtectedRoute
-            isAdmin={false}
-            isBiz={true}
-            element={<EditCardPage />}
-          />
-        }
-      /> */}
       <Route
         path={ROUTES.SANDBOX}
         element={
@@ -71,7 +69,14 @@ const Router = () => {
             element={<SandboxPage />}
           />
         }
-      />
+      >
+        <Route path="nestedpage1" element={<NestedPage1 />} />
+        <Route path="nestedpage2" element={<NestedPage2 />} />
+        <Route path="usememopage" element={<UseMemoPage />} />
+        {/* <Route path="/rrp" element={<ReRenderPage />} /> */}
+        {/* <Route path="/rp1" element={<RP1 />} /> */}
+        {/* <Route path="/rp2" element={<RP2 />} /> */}
+      </Route>
       <Route
         path="/edit/:id"
         element={
@@ -96,6 +101,12 @@ const Router = () => {
           />
         }
       />
+      <Route
+        path={ROUTES.CRM}
+        element={
+          <SuperProtectedRoute isAdmin={true} isBiz={false} element={<CRM />} />
+        }
+      ></Route>
       <Route path="*" element={<h1>404</h1>} />
     </Routes>
   );

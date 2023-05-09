@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { json, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import CardComponent from "../components/CardComponent";
 import { toast } from "react-toastify";
@@ -19,7 +19,7 @@ import HomeIcon from "@mui/icons-material/Home";
 const HomePage = () => {
   const [cardsArr, setCardsArr] = useState(null);
   const [originalCardsArr, setOriginalCardsArr] = useState(null);
-  const [LikeState, setLikeState] = useState(null);
+  const [LikeState, setLikeState] = useState();
   let qparams = useQueryParams();
   const payload = useSelector((bigPie) => bigPie.authSlice.payload);
   const navigate = useNavigate();
@@ -34,6 +34,24 @@ const HomePage = () => {
         toast.error("Oops");
       });
   }, []);
+  useEffect(() => {
+    likes();
+    console.log(cardsArr);
+  }, [likesArr]);
+
+  const likes = async () => {
+    axios
+      .get("/cards/cards")
+      .then(({ data }) => {
+        setCardsArr(data);
+        console.log("here");
+      })
+      .catch((err) => {
+        console.log("err from axios", err);
+        toast.error("Oops");
+      });
+  };
+
   const filterFunc = (data) => {
     if (!originalCardsArr && !data) {
       return;
@@ -63,10 +81,9 @@ const HomePage = () => {
     }
   };
   useEffect(() => {
+    console.log(qparams, "qparams.filter");
     filterFunc();
   }, [qparams.filter]);
-
-  useEffect(() => {}, [cardsArr]);
   if (!cardsArr) {
     return;
   } else {
@@ -98,6 +115,12 @@ const HomePage = () => {
   if (!cardsArr) {
     return <CircularProgress />;
   }
+  var likesArr = originalCardsArr.map((card) => card.likes);
+
+  const likearrbtn = () => {
+    console.log(likesArr, "likesArr");
+  };
+
   return (
     <Box
       component="main"
@@ -134,13 +157,12 @@ const HomePage = () => {
         Here in this page you can browse all the bussines card and chose to your
         liking
       </Typography>
-      <Box
-        component="img"
-        image="https://images.freeimages.com/images/previews/ac9/railway-hdr-1361893.jpg"
-      ></Box>
+      <Button variant="text" color="primary" onClick={likearrbtn}>
+        log like arrs
+      </Button>
       <Grid container spacing={2}>
         {cardsArr.map((item) => (
-          <Grid item xs={4} key={item._id + Date.now()}>
+          <Grid item xs={12} md={6} lg={4} key={item._id + Date.now()}>
             <CardComponent
               id={item._id}
               likes={item.likes}
@@ -158,7 +180,6 @@ const HomePage = () => {
               payload={payload}
               isAdmin={payload && payload.isAdmin}
               onCardClick={handleCardClick}
-              // isBiz={payload && payload.isBiz}
             />
           </Grid>
         ))}
