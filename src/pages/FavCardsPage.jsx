@@ -20,37 +20,11 @@ const MyCardsPage = () => {
       .get("/cards/get-my-fav-cards")
       .then(({ data }) => {
         setFavCardArr(data);
-        filterLikes(data);
       })
       .catch((err) => {
-        console.log("err from axios", err);
+        toast.error(err);
       });
   }, []);
-
-  const filterLikes = (data) => {
-    if (!originalfavCardArr && !data) {
-      return;
-    }
-    if (!originalfavCardArr && data) {
-      setOriginalFavCardArr(data);
-      if (originalfavCardArr) {
-        let neworiginalfavCardArr = JSON.parse(
-          JSON.stringify(originalfavCardArr)
-        );
-        setFavCardArr(neworiginalfavCardArr);
-      }
-    }
-  };
-
-  // const dataLikes = async (datalikes) => {
-  //   try {
-  //     const { ...datafromaxios } = await axios.get("/cards/get-my-fav-cards");
-  //     datafromaxios.data = datalikes;
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-  // console.log(dataLikes(data), "dataLikes");
 
   const handleDeleteFromInitialCardsArr = async (id) => {
     try {
@@ -59,18 +33,24 @@ const MyCardsPage = () => {
         newCardsArr.filter((item) => item._id != id)
       );
     } catch (err) {
-      console.log("error when deleting", err.response.data);
+      toast.error("error when deleting");
     }
   };
   const handleEditFromInitialCardsArr = (id) => {
     navigate(`/edit/${id}`);
   };
-  const handleLikeBtn = (id, event) => {
-    if (!payload) {
-      return;
+  const handleLikeBtn = async (id) => {
+    try {
+      await axios.patch(`/cards/card-like/${id}`);
+      toast.success("The card has been removed from your favorite cards");
+      let newFavCardsArry = await axios.get("/cards/get-my-fav-cards");
+      setFavCardArr(newFavCardsArry.data);
+    } catch (err) {
+      toast.error("opss could not remove the card from the favorite cards");
     }
-    axios.patch(`/cards/card-like/${id}`);
-    toast.success("The card has been removed from your favorite cards");
+  };
+  const handleCardClick = (id) => {
+    navigate(`/cardinfo/${id}`);
   };
 
   return (
@@ -130,6 +110,7 @@ const MyCardsPage = () => {
                 isAdmin={payload && payload.isAdmin}
                 likes={item.likes}
                 onLike={handleLikeBtn}
+                onCardClick={handleCardClick}
               />
             </Grid>
           ))}

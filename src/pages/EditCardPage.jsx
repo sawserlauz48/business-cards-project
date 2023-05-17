@@ -89,7 +89,7 @@ const EditCard = () => {
         delete newInputState.createdAt;
         setInputState(newInputState);
       } catch (err) {
-        console.log("error from axios", err);
+        toast.error(err);
       }
     })();
   }, [id]);

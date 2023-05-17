@@ -98,7 +98,7 @@ const CreatCard = () => {
       navigate(ROUTES.MYCARDS);
       toast.success("The card has been created");
     } catch (err) {
-      console.log("error from axios", err.response.data);
+      toast.error(err);
     }
   };
 

@@ -79,10 +79,8 @@ const Navbar = () => {
               ? authedPages.map((page) => (
                   <NavLinkComponent key={page.url} {...page} />
                 ))
-              : notAuthPages.map((page) => (
-                  <NavLinkComponent key={page.url} {...page} />
-                ))}
-            {isBizacc
+              : ""}
+            {isLoggedIn && isBizacc
               ? bizPages.map((page) => (
                   <NavLinkComponent key={page.url} {...page} />
                 ))

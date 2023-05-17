@@ -2,6 +2,9 @@
   height: 40vmin;
   pointer-events: none;
 }
+.aboutImg {
+  width: 85%;
+}
 .center {
   text-align: center;
 }

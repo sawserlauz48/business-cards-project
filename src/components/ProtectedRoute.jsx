@@ -11,7 +11,7 @@ const ProtectedRoute = ({ element }) => {
   if (isLoggedIn) {
     return element;
   } else {
-    toast.error("You need to be logged in to view this page");
+    // toast.error("You need to be logged in to view this page");
     return <Navigate to={ROUTES.LOGIN} />;
   }
 };

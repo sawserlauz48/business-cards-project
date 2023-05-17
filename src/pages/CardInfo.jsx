@@ -42,7 +42,6 @@ const CardInfo = () => {
         setState(newInputState);
       })
       .catch((err) => {
-        console.log("err from axios", err);
         toast.error("Oops something went wrong");
       });
   }, [id]);

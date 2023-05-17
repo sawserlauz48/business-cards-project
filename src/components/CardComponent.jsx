@@ -12,11 +12,7 @@ import {
 } from "@mui/material";
 import PropTypes from "prop-types";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { Fragment, useState } from "react";
-import Checkbox from "@mui/material/Checkbox";
-import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import Favorite from "@mui/icons-material/Favorite";
-
+import { Fragment } from "react";
 const CardComponent = ({
   cardNumber,
   phone,
@@ -42,8 +38,8 @@ const CardComponent = ({
   const handleEditBtnClick = () => {
     onEdit(id);
   };
-  const handleLikeBtnClick = () => {
-    onLike(id);
+  const handleLikeBtnClick = (ev) => {
+    onLike(id, ev);
   };
 
   const handleCardClick = () => {
@@ -126,6 +122,9 @@ CardComponent.defaultProps = {
   img: "https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled-1150x647.png",
   subTitle: "",
   canEdit: false,
+  state: "",
+  zip: "",
+  imageAlt: "",
 };
 
 export default CardComponent;

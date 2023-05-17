@@ -13,19 +13,20 @@ import ROUTES from "../routes/ROUTES";
 import InputComponent from "../components/InputComponent";
 import ButtonComponents from "../components/ButtonComponents";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { toast } from "react-toastify";
 const initailState = {
   firstName: "",
+  middleName: "",
   lastName: "",
-  email: "",
   phone: "",
+  email: "",
+  imageUrl: "",
+  imageAlt: "",
+  state: "",
   country: "",
   city: "",
   street: "",
   houseNumber: "",
-  middleName: "",
-  imageUrl: "",
-  imageAlt: "",
-  state: "",
   zipCode: "",
 };
 const inputs = [
@@ -66,7 +67,7 @@ const RegisterPage = () => {
         delete newInputState.createdAt;
         setInputState(newInputState);
       } catch (err) {
-        console.log("error from axios", err);
+        toast.error(err);
       }
     })();
   }, []);
@@ -120,7 +121,7 @@ const RegisterPage = () => {
       });
       navigate(ROUTES.HOME);
     } catch (err) {
-      console.log("error from axios", err.response.data);
+      toast.error(err);
     }
   };
 

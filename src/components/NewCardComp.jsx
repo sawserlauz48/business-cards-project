@@ -1,8 +1,8 @@
 import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
+import PropTypes from "prop-types";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Box, CardActionArea, Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 
 const NewCardComp = ({
   imageUrl,
@@ -20,6 +20,7 @@ const NewCardComp = ({
   houseNumber,
   zip,
   created,
+  web,
 }) => {
   return (
     <Box sx={{ mx: "10%" }}>
@@ -124,12 +125,44 @@ const NewCardComp = ({
                 </Typography>
                 {created}
               </Box>
+              <Box variant="body2" color="text.secondary">
+                <Typography sx={{ fontWeight: "bold" }}> Website:</Typography>
+                {web}
+              </Box>
             </Grid>
           </Grid>
         </Box>
       </Card>
     </Box>
   );
+};
+
+NewCardComp.propTypes = {
+  imageUrl: PropTypes.string,
+  imageAlt: PropTypes.string,
+  subtitle: PropTypes.string,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  email: PropTypes.string,
+  phone: PropTypes.string,
+  bizNumber: PropTypes.string,
+  state: PropTypes.string,
+  country: PropTypes.string,
+  city: PropTypes.string,
+  street: PropTypes.string,
+  houseNumber: PropTypes.string,
+  zip: PropTypes.string,
+  created: PropTypes.string,
+  web: PropTypes.string,
+};
+NewCardComp.defultProps = {
+  imageUrl:
+    "https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-1-scaled-1150x647.png",
+  imageAlt: "",
+  subtitle: "",
+  web: "",
+  state: "",
+  zip: "",
 };
 
 export default NewCardComp;

@@ -33,7 +33,7 @@ const MyCardsPage = () => {
         setMyCardArr(data);
       })
       .catch((err) => {
-        console.log("err from axios", err);
+        toast.error(err);
       });
   }, []);
 
@@ -44,18 +44,28 @@ const MyCardsPage = () => {
         newCardsArr.filter((item) => item._id != id)
       );
     } catch (err) {
-      console.log("error when deleting", err.response.data);
+      toast.error("error when deleting");
     }
   };
   const handleEditFromInitialCardsArr = (id) => {
     navigate(`/edit/${id}`);
   };
-  const handleLikeBtn = (id, event) => {
-    if (!payload) {
-      return;
+  const handleLikeBtn = async (id, ev) => {
+    try {
+      await axios.patch(`/cards/card-like/${id}`);
+      if (ev.target.outerText == "LIKE") {
+        toast.success("The card has been added to your favorite cards");
+      } else {
+        toast.success("The card has been removed from your favorite cards");
+      }
+      let newMyCardsArry = await axios.get("/cards/my-cards");
+      setMyCardArr(newMyCardsArry.data);
+    } catch (err) {
+      toast.error("opss could not remove the card from the favorite cards");
     }
-    axios.patch(`/cards/card-like/${id}`);
-    toast.success("The card has been removed from your favorite cards");
+  };
+  const handleCardClick = (id) => {
+    navigate(`/cardinfo/${id}`);
   };
 
   return (
@@ -95,7 +105,6 @@ const MyCardsPage = () => {
         them
       </Typography>
       <Grid container spacing={2} sx={{ mt: 2 }}></Grid>
-      {/* {useMemo(()=>{},[])} */}
       {myCardArr.length != 0 ? (
         <Grid container spacing={2}>
           {myCardArr.map((item) => (
@@ -117,6 +126,7 @@ const MyCardsPage = () => {
                 isAdmin={payload && payload.isAdmin}
                 onLike={handleLikeBtn}
                 likes={item.likes}
+                onCardClick={handleCardClick}
               />
             </Grid>
           ))}

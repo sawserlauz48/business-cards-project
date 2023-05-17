@@ -12,6 +12,7 @@ import validateRegisterSchema from "../validations/registerValidation";
 import ROUTES from "../routes/ROUTES";
 import InputComponent from "../components/InputComponent";
 import ButtonComponents from "../components/ButtonComponents";
+import { toast } from "react-toastify";
 const initailState = {
   firstName: "",
   lastName: "",
@@ -47,18 +48,18 @@ const inputs = [
 const RegisterPage = () => {
   const [inputState, setInputState] = useState({
     firstName: "",
+    middleName: "",
     lastName: "",
+    phone: "",
     email: "",
     password: "",
-    phone: "",
+    imageUrl: "",
+    imageAlt: "",
+    state: "",
     country: "",
     city: "",
     street: "",
     houseNumber: "",
-    middleName: "",
-    imageUrl: "",
-    imageAlt: "",
-    state: "",
     zipCode: "",
   });
   const [checked, setChecked] = useState(false);
@@ -117,7 +118,7 @@ const RegisterPage = () => {
       });
       navigate(ROUTES.LOGIN);
     } catch (err) {
-      console.log("error from axios", err.response.data);
+      toast.error(err);
     }
   };
 

@@ -19,7 +19,6 @@ import HomeIcon from "@mui/icons-material/Home";
 const HomePage = () => {
   const [cardsArr, setCardsArr] = useState(null);
   const [originalCardsArr, setOriginalCardsArr] = useState(null);
-  const [LikeState, setLikeState] = useState();
   let qparams = useQueryParams();
   const payload = useSelector((bigPie) => bigPie.authSlice.payload);
   const navigate = useNavigate();
@@ -34,24 +33,6 @@ const HomePage = () => {
         toast.error("Oops");
       });
   }, []);
-  useEffect(() => {
-    likes();
-    console.log(cardsArr);
-  }, [likesArr]);
-
-  const likes = async () => {
-    axios
-      .get("/cards/cards")
-      .then(({ data }) => {
-        setCardsArr(data);
-        console.log("here");
-      })
-      .catch((err) => {
-        console.log("err from axios", err);
-        toast.error("Oops");
-      });
-  };
-
   const filterFunc = (data) => {
     if (!originalCardsArr && !data) {
       return;
@@ -81,14 +62,8 @@ const HomePage = () => {
     }
   };
   useEffect(() => {
-    console.log(qparams, "qparams.filter");
     filterFunc();
   }, [qparams.filter]);
-  if (!cardsArr) {
-    return;
-  } else {
-    const initailLikeState = cardsArr.map((card) => card.likes);
-  }
   const handleDeleteFromInitialCardsArr = async (id) => {
     try {
       await axios.delete("/cards/" + id);
@@ -105,21 +80,23 @@ const HomePage = () => {
   const handleCardClick = (id) => {
     navigate(`/cardinfo/${id}`);
   };
-  const handleLikeBtn = (id, event) => {
-    if (!payload) {
-      return;
+  const handleLikeBtn = async (id, ev) => {
+    try {
+      await axios.patch(`/cards/card-like/${id}`);
+      if (ev.target.outerText == "LIKE") {
+        toast.success("The card has been added to your favorite cards");
+      } else {
+        toast.success("The card has been removed from your favorite cards");
+      }
+      let newCardsArryLikes = await axios.get("/cards/cards");
+      setCardsArr(newCardsArryLikes.data);
+    } catch (err) {
+      toast.error("opss could not remove the card from the favorite cards");
     }
-    axios.patch(`/cards/card-like/${id}`);
-    toast.success("The card has been add to your favorite cards");
   };
   if (!cardsArr) {
     return <CircularProgress />;
   }
-  var likesArr = originalCardsArr.map((card) => card.likes);
-
-  const likearrbtn = () => {
-    console.log(likesArr, "likesArr");
-  };
 
   return (
     <Box
@@ -157,9 +134,6 @@ const HomePage = () => {
         Here in this page you can browse all the bussines card and chose to your
         liking
       </Typography>
-      <Button variant="text" color="primary" onClick={likearrbtn}>
-        log like arrs
-      </Button>
       <Grid container spacing={2}>
         {cardsArr.map((item) => (
           <Grid item xs={12} md={6} lg={4} key={item._id + Date.now()}>

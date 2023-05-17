@@ -15,7 +15,7 @@ import useLoggedIn from "../hooks/useLoggedIn";
 import ROUTES from "../routes/ROUTES";
 import { useState } from "react";
 import axios from "axios";
-import validateLoginSchema from "../validations/loginValidation";
+import { toast } from "react-toastify";
 
 const LoginPage = () => {
   const [inputState, setInputState] = useState({
@@ -33,7 +33,7 @@ const LoginPage = () => {
       //move to homepage
       navigate(ROUTES.HOME);
     } catch (err) {
-      console.log("login error", err);
+      toast.error("e-mail or password incorrect");
     }
   };
   const handleInputChange = (ev) => {
@@ -95,6 +95,15 @@ const LoginPage = () => {
               />
             </Grid>
           </Grid>
+
+          <Button
+            fullWidth
+            variant="contained"
+            onClick={handleBtnClick}
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign In
+          </Button>
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <Button
@@ -112,14 +121,6 @@ const LoginPage = () => {
               </Button>
             </Grid>
           </Grid>
-          <Button
-            fullWidth
-            variant="contained"
-            onClick={handleBtnClick}
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Sign In
-          </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
               <Link to={ROUTES.REGISTER}>
