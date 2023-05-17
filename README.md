@@ -1,70 +1,44 @@
-# Getting Started with Create React App
+# React Sales Site - Business Card Marketplace
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is a sales site that displays business cards of users for purchase. The information is stored in a MongoDB database. The project was built using React, Material UI, MongoDB, and Express Server.
 
-## Available Scripts
+## The project was built using the following technologies:
 
-In the project directory, you can run:
+- React
+- Material UI
+- MongoDB
+- Express Server
 
-### `npm start`
+## Running the Project
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+To run the project, follow these steps:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+1. Extract the folder from the provided zip file.
+2. Open your terminal.
+3. Navigate to the extracted project folder.
+4. Install the required packages by running the command `npm install`. 5. Start the server by running the start.bat file located in the "server-for-project" folder. 6. Start the project using the command `npm start`.
 
-### `npm test`
+## Database Configuration
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+This project uses a MongoDB database to store the information. To configure the database connection, follow these steps:
 
-### `npm run build`
+1. Open the project in your preferred code editor.
+2. Locate the `.env` file in the project's root directory.
+3. Set the `MONGODB_URI` variable to your MongoDB database connection string.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## User Interface
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The user interface of the sales site has the following features:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. When the user is connected, the links in the navigation bar will change to "Signup" and "Login". The "FAV CARDS" link will be added to the avatar image, leading to the cards page displaying favorites of the user.
+2. If the user is a business user type, a link called "MY CARDS" will be added to the navigation bar. Clicking on it will lead to the cards page that the user created.
+3. If the user is of the admin type, a "SANDBOX" bar will be added to the navigation bar, leading to a sandbox page.
 
-### `npm run eject`
+## Permissions
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+The permissions for different user types are as follows:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. A user who is not logged in can only click on the phone icon.
+2. A logged-in user who is not a business or admin can see and mark a card as preferred for business visits.
+3. A logged-in business type user can see the "Edit" and "Delete" icons only for the cards they have created. They can edit and delete their own cards.
+4. An admin type user can delete any business card but can only edit the cards they created in the sandbox.
