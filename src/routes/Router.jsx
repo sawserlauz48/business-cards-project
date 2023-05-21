@@ -18,10 +18,6 @@ import CardInfo from "../pages/CardInfo";
 import NestedPage1 from "../pages/NestedRoutePage/NestedPage1";
 import NestedPage2 from "../pages/NestedRoutePage/NestedPage2";
 import UseMemoPage from "../pages/ReRenderPage/UseMemoPage";
-import CRM from "../pages/CRMPage";
-// import ReRenderPage from "../pages/ReRenderPage/ReRenderPage";
-// import RP1 from "../pages/RP1";
-// import RP2 from "../pages/RP2";
 
 const Router = () => {
   return (
@@ -101,12 +97,6 @@ const Router = () => {
           />
         }
       />
-      <Route
-        path={ROUTES.CRM}
-        element={
-          <SuperProtectedRoute isAdmin={true} isBiz={false} element={<CRM />} />
-        }
-      ></Route>
       <Route path="*" element={<h1>404</h1>} />
     </Routes>
   );
