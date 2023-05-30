@@ -70,6 +70,8 @@ const RegisterPage = () => {
     navigate(ROUTES.HOME);
   };
   useEffect(() => {
+    const joiResponse = validateRegisterSchema(inputState);
+    setInputsErrorsState(joiResponse);
     handleDisabledBtn();
   }, [inputState]);
 
@@ -109,7 +111,7 @@ const RegisterPage = () => {
         city: inputState.city,
         street: inputState.street,
         houseNumber: inputState.houseNumber,
-        middleName: inputState.houseNumber,
+        middleName: inputState.middleName,
         imageUrl: inputState.imageUrl,
         imageAlt: inputState.imageAlt,
         state: inputState.state,
@@ -118,7 +120,7 @@ const RegisterPage = () => {
       });
       navigate(ROUTES.LOGIN);
     } catch (err) {
-      toast.error(err);
+      toast.error(err.response.data);
     }
   };
 
